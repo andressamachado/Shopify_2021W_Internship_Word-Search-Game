@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Word Search Game</string>
+    <string name="application_title">Word Search Game</string>
 </resources>

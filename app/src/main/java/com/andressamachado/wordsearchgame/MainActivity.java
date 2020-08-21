@@ -2,104 +2,89 @@ package com.andressamachado.wordsearchgame;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.accessibilityservice.GestureDescription;
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.GridView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements GestureDetector.OnGestureListener {
-    private static final String TAG = "Swipe Position";
-    private float x1, x2, y1, y2;
-    private static int MIN_DISTANCE = 150;
+public class MainActivity extends AppCompatActivity{
+
     private GestureDetector gestureDetector;
+    GridView lettersGripPanel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_game);
 
-       this.gestureDetector = new GestureDetector(MainActivity.this, this);
+        gestureDetector = new GestureDetector(MainActivity.this, new MyGestureListener());
+        lettersGripPanel = findViewById(R.id.letters_grid_panel);
+        lettersGripPanel.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        gestureDetector.onTouchEvent(event);
+    class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
 
-        switch (event.getAction()) {
+        private static final int SWIPE_THRESHOLD = 100;
+        private static final int SWIPE_VELOCITY_THRESHOLD = 100;
+        private static final String TAG = "Main Activity" ;
 
-            //Starting to swipe time gesture
-            case MotionEvent.ACTION_DOWN:
-                x1 = event.getX();
-                y1 = event.getY();
-                break;
+        @Override
+        public boolean onDown(MotionEvent e) {
+            return true;
+        }
 
-            //Ending time swipe gesture
-            case MotionEvent.ACTION_UP:
-                x2 = event.getX();
-                y2 = event.getY();
-
-                //Getting value for horizontal swipe
-                float valueX = x2 - x1;
-
-                //Getting value for vertical swipe
-                float valueY = y2 - y1;
-
-                if (Math.abs(valueX) > MIN_DISTANCE) {
-                    //detect left to right swipe
-                    if (x2 > x1) {
-                        Toast.makeText(getApplicationContext(), "Right was swiped", Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, "onTouchEvent: RIGHT SWIPE");
-                    } else {
-                        //detect right to left swipe
-                        Toast.makeText(getApplicationContext(), "Left was swiped", Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, "onTouchEvent: LEFT SWIPE");
+        @Override
+        public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
+                float diffY = event2.getY() - event1.getY();
+                float diffX = event2.getX() - event1.getX();
+                if (Math.abs(diffX) > Math.abs(diffY)) {
+                    if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                        if (diffX > 0) {
+                            onSwipeRight();
+                        } else {
+                            onSwipeLeft();
+                        }
                     }
-                } else if (Math.abs(valueY) > MIN_DISTANCE) {
-                    //detect top to bottom swipe
-                    if (y2 > y1) {
-                        Toast.makeText(getApplicationContext(), "Bottom swipe", Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, "onTouchEvent: BOTTOM SWIPE");
-                    } else {
-                        //detect bottom to top swipe
-                        Toast.makeText(getApplicationContext(), "top swipe", Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, "onTouchEvent: TOP SWIPE");
+                } else {
+                    if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
+                        if (diffY > 0) {
+                            onSwipeBottom();
+                        } else {
+                            onSwipeTop();
+                        }
                     }
                 }
-            }
-        return super.onTouchEvent(event);
-    }
+                return true;
+        }
 
-    @Override
-    public boolean onDown(MotionEvent e) {
-        return false;
-    }
+        private void onSwipeLeft() {
+            Toast.makeText(getApplicationContext(), "onSwipeLeft", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "onSwipeLeft ");
+        }
 
-    @Override
-    public void onShowPress(MotionEvent e) {
+        private void onSwipeRight() {
+            Toast.makeText(getApplicationContext(), "onSwipeRight ", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "onSwipeRight");
+        }
 
-    }
+        private void onSwipeTop() {
+            Toast.makeText(getApplicationContext(), "onSwipeTop", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "onSwipeTop");
+        }
 
-    @Override
-    public boolean onSingleTapUp(MotionEvent e) {
-        return false;
-    }
+        private void onSwipeBottom() {
+            Toast.makeText(getApplicationContext(), "onSwipeBottom", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "onSwipeBottom");
+        }
 
-    @Override
-    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        return false;
-    }
-
-    @Override
-    public void onLongPress(MotionEvent e) {
-
-    }
-
-    @Override
-    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        return false;
     }
 }
