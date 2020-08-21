@@ -14,6 +14,8 @@ public class MainActivity extends AppCompatActivity{
 
     private GestureDetector gestureDetector;
     GridView lettersGripPanel;
+    GridView wordsContainer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,16 @@ public class MainActivity extends AppCompatActivity{
                 return false;
             }
         });
+
+        WordPlacement wpd = new WordPlacement();
+
+        GridViewAdapter adapter = new GridViewAdapter(MainActivity.this, wpd.getCompleteGrid());
+        lettersGripPanel.setAdapter(adapter);
+
+        wordsContainer = findViewById(R.id.words_grid_panel);
+
+        WordGroupAdapter wordsAdapter = new WordGroupAdapter(MainActivity.this, wpd.getUsedWordsList());
+        wordsContainer.setAdapter(wordsAdapter);
     }
 
     class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
