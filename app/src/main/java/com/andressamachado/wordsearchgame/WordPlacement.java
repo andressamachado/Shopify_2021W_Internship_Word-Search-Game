@@ -56,6 +56,8 @@ public class WordPlacement {
         int wordSize;
         Word wordTobePlaced;
 
+        //TODO salvar as posicoes (tag) onde a palavra estasendo colocada no obj word
+
         for (int i = 0; i < amountOfWords; ) {
             wordTobePlaced = words.get(wordIndex);
             indexToBeUsed = getRandomIndexValue(indexCounter++);
@@ -87,6 +89,8 @@ public class WordPlacement {
             }
 
 
+            wordTobePlaced.setStartGridPosition(indexToBeUsed);
+
             for (int indexPosition = 0; indexPosition < wordSize; indexPosition++) {
                 grid[indexToBeUsed] = wordTobePlaced.getContent().charAt(indexPosition);
                 usedIndexes.add(indexToBeUsed);
@@ -94,14 +98,14 @@ public class WordPlacement {
 
             }
 
+            wordTobePlaced.setEndGridPosition(indexToBeUsed - 1);
+
             usedWords.add(wordTobePlaced);
             wordIndex++;
             indexCounter = 0;
             i++;
         }
     }
-
-
 
     public List<Word> getUsedWordsList() {
         return usedWords;

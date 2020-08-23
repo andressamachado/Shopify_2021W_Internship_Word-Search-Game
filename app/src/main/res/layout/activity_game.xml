@@ -65,7 +65,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/timer_panel"
-        android:numColumns="10" />
+        android:numColumns="10">
+
+<!--        <TextView-->
+<!--            android:id="@+id/letter"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="25sp"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:text="Letters"/>-->
+
+    </GridView>
 
 
     <GridView

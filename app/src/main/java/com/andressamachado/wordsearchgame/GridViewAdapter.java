@@ -2,7 +2,9 @@ package com.andressamachado.wordsearchgame;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -13,11 +15,13 @@ import com.andressamachado.wordsearchgame.R;
 public class GridViewAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater inflater;
+    MainActivity touchListener;
     private char[] letter;
 
-    public GridViewAdapter(Context context, char[] letter) {
+    public GridViewAdapter(Context context, char[] letter,  MainActivity touchListener) {
         this.context = context;
         this.letter = letter;
+        this.touchListener = touchListener;
     }
 
     @Override
@@ -37,7 +41,7 @@ public class GridViewAdapter extends BaseAdapter {
 
     @SuppressLint("SetTextI18n")
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         if (inflater == null){
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
@@ -48,7 +52,8 @@ public class GridViewAdapter extends BaseAdapter {
         TextView textView = convertView.findViewById(R.id.text_view);
 
         textView.setText(""+letter[position]);
-
+        textView.setOnTouchListener(touchListener);
+        textView.setTag(position);
         return convertView;
     }
 }
