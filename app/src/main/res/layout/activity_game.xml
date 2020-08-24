@@ -60,7 +60,7 @@
     <GridView
         android:id="@+id/letters_grid_panel"
         android:layout_width="match_parent"
-        android:layout_height="450dp"
+        android:layout_height="400dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,7 +81,7 @@
     <GridView
         android:id="@+id/words_grid_panel"
         android:layout_width="410dp"
-        android:layout_height="220dp"
+        android:layout_height="272dp"
         android:numColumns="3"
         android:clickable="false"
         android:background="@color/colorPrimary"

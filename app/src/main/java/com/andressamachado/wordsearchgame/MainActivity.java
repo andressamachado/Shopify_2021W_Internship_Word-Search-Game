@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewParent;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,25 +33,24 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
     private float initialX;
     private float initialY;
     private float cellWidth;
-    private boolean horizontalMove;
     float moveX;
     float moveY;
 
+    enum MoveDirection {
+        HORIZONTAL,
+        NONE,
+        VERTICAL
+    }
+    private MoveDirection direction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        gestureDetector = new GestureDetector(MainActivity.this, new MyGestureListener());
         lettersGripPanel = findViewById(R.id.letters_grid_panel);
-//        lettersGripPanel.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                gestureDetector.onTouchEvent(event);
-//                return false;
-//            }
-//        });
+
+        direction = MoveDirection.NONE;
 
         wpd = new WordPlacement();
         wpd.getUsedWordsList();
@@ -63,54 +64,76 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
         wordsContainer.setAdapter(wordsAdapter);
 
         cellWidth = getResources().getDisplayMetrics().widthPixels / 10;
-        Log.d(TAG, "WIDTH: " + cellWidth);
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
 
-        switch (event.getAction()) {
+        switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
+                ViewParent parent = v.getParent();
+                if (parent != null) {
+                    parent.requestDisallowInterceptTouchEvent(true);
+                }
                 initialSwipePosition = (int) v.getTag();
 
                 initialX = event.getX();
                 initialY = event.getY();
 
+                lettersGripPanel.getChildAt(initialSwipePosition).setBackground(getResources().getDrawable(R.drawable.word_found_background));
                 Log.e(TAG, ((TextView) v).getText().toString() + " ");
                 Log.e("x: ", (initialX + " "));
                 Log.e("Y: ", (initialY + " "));
-                Log.e("x: ", (event.getX() + " "));
-                Log.e("Y: ", (event.getY() + " "));
                 break;
 
             case MotionEvent.ACTION_MOVE:
+                parent = v.getParent();
+                if (parent != null) {
+                    parent.requestDisallowInterceptTouchEvent(true);
+                }
                 float currentX = event.getX();
                 float currentY = event.getY();
 
-                 moveX = currentX - initialX;
-                 moveY = currentY - initialY;
+                moveX = currentX - initialX;
+                moveY = currentY - initialY;
 
                 int currentPosition;
 
-                //moveX positive means user is moving their finger to the right
-                if (moveX > 0) {
-                    boolean newCell;
+                if(direction == MoveDirection.NONE || direction == MoveDirection.HORIZONTAL) {
+                    //moveX positive means user is moving their finger to the right
+                    if (moveX > 0 && moveX > cellWidth) {
 
-                    //finding current cell position
-                    currentPosition = initialSwipePosition + Math.round(moveX / cellWidth);
+                        //finding current cell position
+                        currentPosition = initialSwipePosition + Math.round(moveX / cellWidth);
+                        lettersGripPanel.getChildAt(currentPosition).setBackground(getResources().getDrawable(R.drawable.word_found_background));
 
-                    //horizontal move to the right
-                    horizontalMove = true;
+                        //horizontal move to the right
+                        direction = MoveDirection.HORIZONTAL;
 
-                } else {
-                    //horizontal move to the left
-                    horizontalMove = true;
+                    } else if (moveX < 0 &&  moveX > cellWidth){
+                        //horizontal move to the left
 
+                        //finding current cell position
+                        currentPosition = initialSwipePosition + (-1) * Math.round(moveX / cellWidth);
+                        direction = MoveDirection.HORIZONTAL;
+
+                    }
                 }
+
+                if (direction == MoveDirection.NONE || direction == MoveDirection.VERTICAL) {
+
+                    if (moveY > 0 && moveY > cellWidth) {
+                        //finding current cell position
+                        currentPosition = initialSwipePosition + Math.round(moveY / cellWidth) * 10;
+                        Log.d(TAG, "moveY: "+moveY);
+                        direction = MoveDirection.VERTICAL;
+                        Log.d(TAG, "direction: "+direction );
+                    }
+                }
+
                 break;
             case MotionEvent.ACTION_UP:
                 //Checking if word was found
-
                 finalSwipePosition = initialSwipePosition + Math.round(moveX / cellWidth);
 
                 Log.d(TAG, "finalSwipePosition: " + finalSwipePosition);
@@ -118,23 +141,25 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                 List<Word> usedWordsList =  wpd.getUsedWordsList();
 
                 for(int i = 0; i < usedWordsList.size(); i++){
-
                     if(usedWordsList.get(i).getStartGridPosition() == initialSwipePosition && usedWordsList.get(i).getEndGridPosition() == finalSwipePosition){
                         usedWordsList.get(i).setFound(true);
+
                         break;
                     }
-
                 }
-                Log.d(TAG, "onTouch: a" );
 
+
+                direction = MoveDirection.NONE;
                 break;
 
             case MotionEvent.ACTION_CANCEL:
+                Log.d(TAG, "on cancel" );
 
                 break;
         }
         return true;
     }
+
 
     class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
 

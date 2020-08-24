@@ -31,7 +31,7 @@ public class GridViewAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return letter[position];
     }
 
     @Override
@@ -46,7 +46,7 @@ public class GridViewAdapter extends BaseAdapter {
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
         if(convertView == null){
-            convertView = inflater.inflate(R.layout.letter_row, null);
+            convertView = inflater.inflate(R.layout.letter_row, null,false);
         }
 
         TextView textView = convertView.findViewById(R.id.text_view);
