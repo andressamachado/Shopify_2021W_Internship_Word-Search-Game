@@ -107,11 +107,11 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                         //horizontal move to the right
                         direction = MoveDirection.HORIZONTAL;
 
-                    } else if (moveX < 0 &&  moveX > cellWidth){
+                    } else if (moveX < 0 &&  (-1) *moveX > cellWidth){
                         //horizontal move to the left
 
                         //finding current cell position
-                        currentPosition = initialSwipePosition + (-1) * Math.round(moveX / cellWidth);
+                        currentPosition = initialSwipePosition +  Math.round(moveX / cellWidth);
                         lettersGripPanel.getChildAt(currentPosition).setBackgroundColor(getResources().getColor(R.color.wordFoundBackground));
                         direction = MoveDirection.HORIZONTAL;
 
@@ -145,26 +145,47 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
 
                 List<Word> usedWordsList =  wpd.getUsedWordsList();
 
+                int startPosition = moveX > 0 ? initialSwipePosition : finalSwipePosition;
+                int endPosition = moveX > 0 ? finalSwipePosition : initialSwipePosition;
+
+
                 for(int i = 0; i < usedWordsList.size(); i++){
-                    if(usedWordsList.get(i).getStartGridPosition() == initialSwipePosition && usedWordsList.get(i).getEndGridPosition() == finalSwipePosition){
+                    if(usedWordsList.get(i).getStartGridPosition() == startPosition && usedWordsList.get(i).getEndGridPosition() == endPosition){
                         usedWordsList.get(i).setFound(true);
                         isFound = true;
                         break;
                     }
                 }
 
-                if (isFound){
-                    if (direction == MoveDirection.HORIZONTAL){
+
+                int color = isFound ? Color.GREEN : Color.WHITE;
+
+                if (direction == MoveDirection.HORIZONTAL) {
+                    if (moveX > 0) {
                         for (int i = initialSwipePosition; i <= finalSwipePosition; i++){
-                            lettersGripPanel.getChildAt(i).setBackgroundColor(Color.GREEN);
+                            lettersGripPanel.getChildAt(i).setBackgroundColor(color);
                         }
                     }
-                }else{
-                    for (int i = initialSwipePosition; i <= finalSwipePosition; i++){
-                        lettersGripPanel.getChildAt(i).setBackgroundColor(Color.WHITE);
+                    if (moveX < 0) {
+                        for (int i = finalSwipePosition; i <= initialSwipePosition; i++){
+                            lettersGripPanel.getChildAt(i).setBackgroundColor(color);
+                        }
                     }
-
                 }
+
+
+//                if (VERTICAL){
+//                    if ("baixo") {
+//
+//                    }
+//                    if ("cima"){
+//
+//                    }
+//                }
+//
+
+
+
 
                 direction = MoveDirection.NONE;
                 break;
