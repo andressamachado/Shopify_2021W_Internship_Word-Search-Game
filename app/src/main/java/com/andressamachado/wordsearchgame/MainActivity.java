@@ -20,7 +20,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements  View.OnTouchListener {
     private static final String TAG = "MAIN ACTIVITY";
-    private GestureDetector gestureDetector;
     private GridView lettersGripPanel;
     private GridView wordsContainer;
     WordPlacement wpd;
@@ -203,13 +202,13 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                 if (direction == MoveDirection.VERTICAL){
                     if (moveY > 0) {
                         for (int i = initialSwipePosition; i <= finalSwipePosition; i++){
-
+                            lettersGripPanel.getChildAt(i).setBackgroundColor(color);
                         }
                     }
 
                     if (moveY > 0){
                         for (int i = finalSwipePosition; i <= initialSwipePosition; i++){
-
+                            lettersGripPanel.getChildAt(i).setBackgroundColor(color);
                         }
                     }
                 }
