@@ -1,12 +1,14 @@
 package com.andressamachado.wordsearchgame;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,51 +24,55 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
     private static final String TAG = "MAIN ACTIVITY";
     private GridView lettersGripPanel;
     private GridView wordsContainer;
-    WordPlacement wpd;
+    private Toolbar toolbar;
+
+    private WordPlacement wpd;
 
     private int initialSwipePosition;
     private int finalSwipePosition;
-
-    private float initialX;
-    private float initialY;
     private float cellWidth;
     private float cellHeight;
 
-    float moveX;
-    float moveY;
-
-    enum MoveDirection {
+    private enum MoveDirection {
         HORIZONTAL,
         NONE,
         VERTICAL
     }
     private MoveDirection direction;
+    private float moveX;
+    private float moveY;
+    private float initialX;
+    private float initialY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        lettersGripPanel = findViewById(R.id.letters_grid_panel);
-
-        direction = MoveDirection.NONE;
-
         wpd = new WordPlacement();
         wpd.getUsedWordsList();
+
+        lettersGripPanel = findViewById(R.id.letters_grid_panel);
+        wordsContainer = findViewById(R.id.words_grid_panel);
+        toolbar = (Toolbar) findViewById(R.id.application_toolbar);
 
         GridViewAdapter adapter = new GridViewAdapter(MainActivity.this, wpd.getCompleteGrid(), this);
         lettersGripPanel.setAdapter(adapter);
 
-        wordsContainer = findViewById(R.id.words_grid_panel);
-
         WordGroupAdapter wordsAdapter = new WordGroupAdapter(MainActivity.this, wpd.getUsedWordsList());
         wordsContainer.setAdapter(wordsAdapter);
+
+        //Sets the toolbar title to empty string to not display the name of the project there as it
+        //does not have space to display everything we have to display.
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
 
         cellWidth = getResources().getDisplayMetrics().widthPixels / 10.0f;
         ViewGroup.LayoutParams p = lettersGripPanel.getLayoutParams();
         p.height =  getResources().getDisplayMetrics().widthPixels;
         lettersGripPanel.setLayoutParams(p);
 
+        direction = MoveDirection.NONE;
     }
 
     @Override
@@ -249,7 +255,6 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
         }
         return true;
     }
-
 
     class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
 
