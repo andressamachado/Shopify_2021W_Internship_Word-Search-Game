@@ -6,5 +6,6 @@
 
     <color name="wordFoundBg">#B39c9497</color>
     <color name="wordBeingSelectedBg">#9a6279</color>
+    <color name="chronometerTextColor">#e0e0e0</color>
 
 </resources>

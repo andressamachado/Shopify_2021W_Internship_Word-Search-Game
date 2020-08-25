@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.widget.Chronometer;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,6 +27,9 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
     private GridView wordsContainer;
     private Toolbar toolbar;
     private TextView toolbarCounter;
+
+    private Chronometer toolbarChronometer;
+    private boolean running;
 
     private WordPlacement wpd;
     private int wordsCounter;
@@ -59,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
         wordsContainer = findViewById(R.id.words_grid_panel);
         toolbar = (Toolbar) findViewById(R.id.application_toolbar);
         toolbarCounter = (TextView) findViewById(R.id.toolbarCounter);
+        toolbarChronometer = (Chronometer) findViewById(R.id.toolbarTimer);
 
         GridViewAdapter adapter = new GridViewAdapter(MainActivity.this, wpd.getCompleteGrid(), this);
         lettersGripPanel.setAdapter(adapter);
@@ -70,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
         //does not have space to display everything we have to display.
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
+        toolbarCounter.setText(wordsCounter + "/" + wpd.getUsedWordsList().size());
 
         cellWidth = getResources().getDisplayMetrics().widthPixels / 10.0f;
         ViewGroup.LayoutParams p = lettersGripPanel.getLayoutParams();
@@ -77,6 +83,25 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
         lettersGripPanel.setLayoutParams(p);
 
         direction = MoveDirection.NONE;
+        startChronometer(toolbarChronometer);
+    }
+
+    public void startChronometer(View v){
+        if (!running){
+            toolbarChronometer.start();
+            running = true;
+        }
+    }
+
+    public void pauseChronometer(View v){
+        if (running){
+            toolbarChronometer.stop();
+            running = false;
+        }
+    }
+
+    public void resetChronometer(View v){
+
     }
 
     @Override

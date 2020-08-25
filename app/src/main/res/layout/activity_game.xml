@@ -23,26 +23,28 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:fontFamily="@font/fredoka_one"
-            android:text="Caça Palavras"
+            android:text="@string/application_title"
             android:textSize="25sp" />
 
-        <TextView
+        <Chronometer
             android:id="@+id/toolbarTimer"
-            android:layout_width="50dp"
+            android:layout_width="60dp"
             android:layout_height="match_parent"
-            android:layout_gravity="right"
-            android:layout_marginEnd="20dp"
-            android:text="01:30"
-            android:textSize="18sp" />
+            android:layout_gravity="end"
+            android:layout_marginEnd="16dp"
+            android:textSize="20sp"
+            android:textColor="@color/chronometerTextColor"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/toolbarCounter"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:layout_gravity="right"
-            android:layout_marginEnd="20dp"
-            android:text="1/10"
-            android:textSize="18sp" />
+            android:layout_gravity="end"
+            android:layout_marginEnd="10dp"
+            android:textSize="20sp"
+            android:textColor="@color/chronometerTextColor"
+            android:textStyle="bold"/>
 
     </androidx.appcompat.widget.Toolbar>
 
