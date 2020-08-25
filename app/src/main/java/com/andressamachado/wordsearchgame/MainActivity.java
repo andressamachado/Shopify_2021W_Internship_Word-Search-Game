@@ -25,9 +25,10 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
     private GridView lettersGripPanel;
     private GridView wordsContainer;
     private Toolbar toolbar;
+    private TextView toolbarCounter;
 
     private WordPlacement wpd;
-
+    private int wordsCounter;
     private int initialSwipePosition;
     private int finalSwipePosition;
     private float cellWidth;
@@ -52,9 +53,12 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
         wpd = new WordPlacement();
         wpd.getUsedWordsList();
 
+        wordsCounter = 0;
+
         lettersGripPanel = findViewById(R.id.letters_grid_panel);
         wordsContainer = findViewById(R.id.words_grid_panel);
         toolbar = (Toolbar) findViewById(R.id.application_toolbar);
+        toolbarCounter = (TextView) findViewById(R.id.toolbarCounter);
 
         GridViewAdapter adapter = new GridViewAdapter(MainActivity.this, wpd.getCompleteGrid(), this);
         lettersGripPanel.setAdapter(adapter);
@@ -191,6 +195,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                         if(usedWordsList.get(i).getStartGridPosition() == startPosition && usedWordsList.get(i).getEndGridPosition() == endPosition){
                             usedWordsList.get(i).setFound(true);
                             isFound = true;
+                            wordsCounter++;
                             break;
                         }
                     }
@@ -220,6 +225,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                         if(usedWordsList.get(i).getStartGridPosition() == startPosition && usedWordsList.get(i).getEndGridPosition() == endPosition){
                             usedWordsList.get(i).setFound(true);
                             isFound = true;
+                            wordsCounter++;
                             break;
                         }
                     }
@@ -246,6 +252,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                 moveX = -1;
                 moveY = -1;
 
+                toolbarCounter.setText(wordsCounter + "/" + usedWordsList.size());
                 direction = MoveDirection.NONE;
             break;
 
