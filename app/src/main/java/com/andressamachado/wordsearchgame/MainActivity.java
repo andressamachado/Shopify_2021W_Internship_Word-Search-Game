@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -30,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
     private float initialX;
     private float initialY;
     private float cellWidth;
+    private float cellHeight;
+
     float moveX;
     float moveY;
 
@@ -60,11 +63,17 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
         WordGroupAdapter wordsAdapter = new WordGroupAdapter(MainActivity.this, wpd.getUsedWordsList());
         wordsContainer.setAdapter(wordsAdapter);
 
-        cellWidth = getResources().getDisplayMetrics().widthPixels / 10;
+        cellWidth = getResources().getDisplayMetrics().widthPixels / 10.0f;
+        ViewGroup.LayoutParams p = lettersGripPanel.getLayoutParams();
+        p.height =  getResources().getDisplayMetrics().widthPixels;
+        lettersGripPanel.setLayoutParams(p);
+
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+
+        cellHeight = lettersGripPanel.getHeight() / 10.0f;
 
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
@@ -77,11 +86,12 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                 initialX = event.getX();
                 initialY = event.getY();
 
-                lettersGripPanel.getChildAt(initialSwipePosition).setBackground(getResources().getDrawable(R.drawable.word_found_background_left));
+                lettersGripPanel.getChildAt(initialSwipePosition).setBackgroundColor(getResources().getColor(R.color.wordBeingSelectedBg));
+
                 Log.e(TAG, ((TextView) v).getText().toString() + " ");
                 Log.e("x: ", (initialX + " "));
                 Log.e("Y: ", (initialY + " "));
-                break;
+            break;
 
             case MotionEvent.ACTION_MOVE:
                 parent = v.getParent();
@@ -102,9 +112,10 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
 
                         //finding current cell position
                         currentPosition = initialSwipePosition + Math.round(moveX / cellWidth);
-                        lettersGripPanel.getChildAt(currentPosition).setBackgroundColor(getResources().getColor(R.color.wordFoundBackground));
+                        lettersGripPanel.getChildAt(currentPosition).setBackgroundColor(getResources().getColor(R.color.wordBeingSelectedBg));
 
                         //horizontal move to the right
+                        Log.d(TAG, "moveY: "+moveX);
                         direction = MoveDirection.HORIZONTAL;
 
                     } else if (moveX < 0 &&  (-1) *moveX > cellWidth){
@@ -112,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
 
                         //finding current cell position
                         currentPosition = initialSwipePosition +  Math.round(moveX / cellWidth);
-                        lettersGripPanel.getChildAt(currentPosition).setBackgroundColor(getResources().getColor(R.color.wordFoundBackground));
+                        lettersGripPanel.getChildAt(currentPosition).setBackgroundColor(getResources().getColor(R.color.wordBeingSelectedBg));
                         direction = MoveDirection.HORIZONTAL;
 
                     }
@@ -120,26 +131,41 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
 
                 if (direction == MoveDirection.NONE || direction == MoveDirection.VERTICAL) {
 
-                    if (moveY > 0 && moveY > cellWidth) {
+                    if (moveY > 0 && moveY > cellHeight) {
                         //finding current cell position
-                        currentPosition = initialSwipePosition + Math.round(moveY / cellWidth) * 10;
-                        lettersGripPanel.getChildAt(currentPosition).setBackgroundColor(getResources().getColor(R.color.wordFoundBackground));
+                        currentPosition = initialSwipePosition + Math.round(moveY / cellHeight) * 10;
+                        lettersGripPanel.getChildAt(currentPosition).setBackgroundColor(getResources().getColor(R.color.wordBeingSelectedBg));
 
                         Log.d(TAG, "moveY: "+moveY);
                         direction = MoveDirection.VERTICAL;
-                        Log.d(TAG, "direction: "+direction );
+                        Log.d(TAG, "down " );
 
-                    } else if (moveY < 0 && moveY > cellWidth){
+                    } else if (moveY < 0 && (-1) * moveY > cellHeight){
+                        //finding current cell position
+                        currentPosition = initialSwipePosition + Math.round(moveY / cellHeight) * 10;
+                        lettersGripPanel.getChildAt(currentPosition).setBackgroundColor(getResources().getColor(R.color.wordBeingSelectedBg));
 
+                        Log.d(TAG, "moveY: "+moveY);
+                        direction = MoveDirection.VERTICAL;
+                        Log.d(TAG, "up: " );
                     }
                 }
 
-                break;
+            break;
+
             case MotionEvent.ACTION_UP:
                 boolean isFound = false;
 
                 //Checking if word was found
                 finalSwipePosition = initialSwipePosition + Math.round(moveX / cellWidth);
+
+                Log.d(TAG, "initial" + initialSwipePosition);
+                Log.d(TAG, "final" + finalSwipePosition);
+
+                if (initialSwipePosition == finalSwipePosition){
+                    lettersGripPanel.getChildAt(initialSwipePosition).setBackgroundColor(Color.WHITE);
+                    return true;
+                }
 
                 Log.d(TAG, "finalSwipePosition: " + finalSwipePosition);
 
@@ -158,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                 }
 
 
-                int color = isFound ? Color.GREEN : Color.WHITE;
+                int color = isFound ? getResources().getColor(R.color.wordFoundBg) : Color.WHITE;
 
                 if (direction == MoveDirection.HORIZONTAL) {
                     if (moveX > 0) {
@@ -174,26 +200,33 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                 }
 
 
-//                if (VERTICAL){
-//                    if ("baixo") {
-//
-//                    }
-//                    if ("cima"){
-//
-//                    }
-//                }
-//
+                if (direction == MoveDirection.VERTICAL){
+                    if (moveY > 0) {
+                        for (int i = initialSwipePosition; i <= finalSwipePosition; i++){
 
+                        }
+                    }
 
+                    if (moveY > 0){
+                        for (int i = finalSwipePosition; i <= initialSwipePosition; i++){
 
+                        }
+                    }
+                }
+
+                initialSwipePosition = -1;
+                finalSwipePosition = -1;
+                initialX = -1;
+                initialY = -1;
+                moveX = -1;
+                moveY = -1;
 
                 direction = MoveDirection.NONE;
-                break;
+            break;
 
             case MotionEvent.ACTION_CANCEL:
                 Log.d(TAG, "on cancel" );
-
-                break;
+            break;
         }
         return true;
     }
