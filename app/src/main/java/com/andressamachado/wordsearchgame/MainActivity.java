@@ -3,8 +3,11 @@ package com.andressamachado.wordsearchgame;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -13,6 +16,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -30,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
 
     private Chronometer toolbarChronometer;
     private boolean running;
+    private boolean isNewGame;
 
     private WordPlacement wpd;
     private int wordsCounter;
@@ -192,6 +199,10 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
             case MotionEvent.ACTION_UP:
                 boolean isFound = false;
 
+                if (wordsCounter == wpd.getUsedWordsList().size()-1){
+                    buildAndDisplayAlertDialog();
+                }
+
                 Log.d(TAG, "initial" + initialSwipePosition);
                 Log.d(TAG, "final" + finalSwipePosition);
                 Log.d(TAG, "finalSwipePosition: " + finalSwipePosition);
@@ -286,6 +297,34 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
             break;
         }
         return true;
+    }
+
+    private void buildAndDisplayAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogBg);
+        //Inflate the custom dialog to the view
+        View customAlertView = getLayoutInflater().inflate(R.layout.custom_dialog, null, false);
+
+        //sets title
+        TextView title = customAlertView.findViewById(R.id.alert_title);
+        title.setText(R.string.game_final_title);
+
+        //sets message
+        TextView instructions = customAlertView.findViewById(R.id.alert_subtitle);
+        instructions.setText(R.string.game_final_subtitle);
+
+
+        //sets positive button to close the dialog
+        builder.setView(customAlertView);
+        builder.show();
+
+        Button newGameBtn = (Button) customAlertView.findViewById(R.id.new_game_btn);
+
+        newGameBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isNewGame = true;
+            }
+        });
     }
 
     class MyGestureListener extends GestureDetector.SimpleOnGestureListener {

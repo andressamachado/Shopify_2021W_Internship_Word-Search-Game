@@ -9,4 +9,11 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="DialogBg" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/endGameDialogBackgroundColor</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
 </resources>
