@@ -4,20 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.Rect;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.GridView;
@@ -236,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                         }
                     }
 
-                    color = isFound ? getResources().getColor(R.color.wordFoundBg) : Color.WHITE;
+                    color = isFound ? getResources().getColor(R.color.wordHorizontallyFoundBg) : Color.WHITE;
 
                     if (moveX > 0) {
                         for (int i = initialSwipePosition; i <= finalSwipePosition; i++){
@@ -266,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                         }
                     }
 
-                    color = isFound ? getResources().getColor(R.color.wordFoundBg) : Color.WHITE;
+                    color = isFound ? getResources().getColor(R.color.wordVerticallyFoundBg) : Color.WHITE;
 
                     if (moveY > 0) {
                         for (int i = initialSwipePosition; i <= finalSwipePosition; i+=10){

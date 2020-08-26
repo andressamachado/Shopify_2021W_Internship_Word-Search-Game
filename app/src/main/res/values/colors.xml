@@ -4,7 +4,8 @@
     <color name="colorPrimaryDark">#253A4B</color>
     <color name="colorAccent">#9a6279</color>
 
-    <color name="wordFoundBg">#B39c9497</color>
+    <color name="wordHorizontallyFoundBg">#B39c9497</color>
+    <color name="wordVerticallyFoundBg">#B3253A4B</color>
     <color name="wordBeingSelectedBg">#9a6279</color>
     <color name="chronometerTextColor">#e0e0e0</color>
     <color name="dialogBackgroundColor">#c4c0c2</color>
