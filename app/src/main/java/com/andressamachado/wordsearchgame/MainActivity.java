@@ -196,6 +196,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
 
                 if (wordsCounter == wpd.getUsedWordsList().size()-1){
                     buildAndDisplayAlertDialog();
+                    toolbarChronometer.stop();
                 }
 
                 Log.d(TAG, "initial" + initialSwipePosition);
