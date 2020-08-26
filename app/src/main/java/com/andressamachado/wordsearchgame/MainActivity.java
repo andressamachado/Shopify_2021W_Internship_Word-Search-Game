@@ -5,10 +5,9 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.app.AlertDialog;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +15,7 @@ import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -56,36 +53,57 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        wpd = new WordPlacement();
-        wpd.getUsedWordsList();
-
-        wordsCounter = 0;
-
-        lettersGripPanel = findViewById(R.id.letters_grid_panel);
-        wordsContainer = findViewById(R.id.words_grid_panel);
+        lettersGripPanel = (GridView) findViewById(R.id.letters_grid_panel);
+        wordsContainer = (GridView) findViewById(R.id.words_grid_panel);
         toolbar = (Toolbar) findViewById(R.id.application_toolbar);
         toolbarCounter = (TextView) findViewById(R.id.toolbarCounter);
         toolbarChronometer = (Chronometer) findViewById(R.id.toolbarTimer);
 
+        startGame();
+    }
+
+    private void startGame() {
+        wpd = new WordPlacement();
+        wpd.getUsedWordsList();
+        wordsCounter = 0;
+
+        //Get width of grid and sets it to the height to make it a perfect square and facilitate swiping
+        cellWidth = getResources().getDisplayMetrics().widthPixels / 10.0f;
+
+        direction = MoveDirection.NONE;
+        initialSwipePosition = -1;
+        finalSwipePosition = -1;
+        moveX = -1;
+        moveY = -1;
+        initialX = -1;
+        initialY = -1;
+
+        setAdapters();
+        initializeToolbar();
+        setGridHeight();
+    }
+
+    private void setAdapters() {
         GridViewAdapter adapter = new GridViewAdapter(MainActivity.this, wpd.getCompleteGrid(), this);
         lettersGripPanel.setAdapter(adapter);
 
         WordGroupAdapter wordsAdapter = new WordGroupAdapter(MainActivity.this, wpd.getUsedWordsList());
         wordsContainer.setAdapter(wordsAdapter);
+    }
 
+    private void initializeToolbar() {
         //Sets the toolbar title to empty string to not display the name of the project there as it
         //does not have space to display everything we have to display.
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         toolbarCounter.setText(wordsCounter + "/" + wpd.getUsedWordsList().size());
+        startChronometer(toolbarChronometer);
+    }
 
-        cellWidth = getResources().getDisplayMetrics().widthPixels / 10.0f;
+    private void setGridHeight() {
         ViewGroup.LayoutParams p = lettersGripPanel.getLayoutParams();
         p.height =  getResources().getDisplayMetrics().widthPixels;
         lettersGripPanel.setLayoutParams(p);
-
-        direction = MoveDirection.NONE;
-        startChronometer(toolbarChronometer);
     }
 
     public void startChronometer(View v){
@@ -103,7 +121,8 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
     }
 
     public void resetChronometer(View v){
-
+        toolbarChronometer.setBase(SystemClock.elapsedRealtime());
+        running = false;
     }
 
     @Override
@@ -298,7 +317,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
     private void buildAndDisplayAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogBg);
         //Inflate the custom dialog to the view
-        View customAlertView = getLayoutInflater().inflate(R.layout.custom_dialog, null, false);
+        final View customAlertView = getLayoutInflater().inflate(R.layout.custom_dialog, null, false);
 
         //sets title
         TextView title = customAlertView.findViewById(R.id.alert_title);
@@ -308,105 +327,19 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
         TextView instructions = customAlertView.findViewById(R.id.alert_subtitle);
         instructions.setText(R.string.game_final_subtitle);
 
-
         //sets positive button to close the dialog
         builder.setView(customAlertView);
-        builder.show();
+        final AlertDialog alertDialog = builder.show();
 
         Button newGameBtn = (Button) customAlertView.findViewById(R.id.new_game_btn);
 
         newGameBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isNewGame = true;
+                resetChronometer(toolbarChronometer);
+                startGame();
+                alertDialog.dismiss();
             }
         });
-    }
-
-    class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
-
-        private static final int SWIPE_THRESHOLD = 100;
-        private static final int SWIPE_VELOCITY_THRESHOLD = 100;
-        private static final String TAG = "Main Activity" ;
-
-        @Override
-        public boolean onDown(MotionEvent e) {
-            return true;
-        }
-
-
-
-        @Override
-        public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
-                float diffY = event2.getY() - event1.getY();
-                float diffX = event2.getX() - event1.getX();
-
-            for(int _numChildren = lettersGripPanel.getCount() - 1; _numChildren > 0 ;--_numChildren){
-                LinearLayout _child = (LinearLayout) lettersGripPanel.getChildAt(_numChildren);
-
-                int textViews =  _child.getChildCount();
-
-                TextView firstText = (TextView) _child.getChildAt(0);
-                // Log.d(TAG, "found " + firstText.getText().toString());
-                if (_child instanceof LinearLayout) {
-                    continue;
-                }
-
-                Rect _bounds = new Rect();
-                _child.getHitRect(_bounds);
-                if (_bounds.contains((int)event1.getX(), (int)event1.getY())){
-                    Log.d(TAG, "found ");
-                   //  Log.d(TAG, ((TextView) _child).getText().toString());
-                    break;
-                }
-                // In View = true!!!
-            }
-
-            Log.d(TAG, "event1.getX(): "+ event1.getX());
-            Log.d(TAG, "event1.gety(): "+ event1.getY());
-
-            Log.d(TAG, "event2.getX(): "+ event2.getX());
-            Log.d(TAG, "event2.gety(): "+ event2.getY());
-
-                if (Math.abs(diffX) > Math.abs(diffY)) {
-                    if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
-                        if (diffX > 0) {
-                            onSwipeRight();
-                        } else {
-                            onSwipeLeft();
-                        }
-                    }
-                } else {
-                    if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
-                        if (diffY > 0) {
-                            onSwipeBottom();
-                        } else {
-                            onSwipeTop();
-                        }
-                    }
-                }
-                return true;
-        }
-
-        private void onSwipeLeft() {
-            Toast.makeText(getApplicationContext(), "onSwipeLeft", Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "onSwipeLeft ");
-        }
-
-        private void onSwipeRight() {
-            Toast.makeText(getApplicationContext(), "onSwipeRight ", Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "onSwipeRight");
-        }
-
-        private void onSwipeTop() {
-            Toast.makeText(getApplicationContext(), "onSwipeTop", Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "onSwipeTop");
-        }
-
-        private void onSwipeBottom() {
-            Toast.makeText(getApplicationContext(), "onSwipeBottom", Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "onSwipeBottom");
-        }
-
     }
 }
