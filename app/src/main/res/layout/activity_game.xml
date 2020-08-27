@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/BaseLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
@@ -63,13 +64,25 @@
 
     <GridView
         android:id="@+id/words_grid_panel"
-        android:layout_width="match_parent"
+        android:layout_width="262dp"
         android:layout_height="200dp"
         android:background="@color/colorPrimary"
         android:clickable="false"
-        android:numColumns="3"
+        android:numColumns="2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="150dp"
+        android:layout_height="200dp"
+        android:background="@color/colorPrimary"
+        android:src="@drawable/main_image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/words_grid_panel"
+        app:layout_constraintTop_toTopOf="@+id/words_grid_panel" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
