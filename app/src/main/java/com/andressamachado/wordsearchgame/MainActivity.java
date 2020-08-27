@@ -1,13 +1,19 @@
 package com.andressamachado.wordsearchgame;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,21 +23,23 @@ import android.widget.Chronometer;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.google.android.material.navigation.NavigationView;
+
 import java.util.List;
 import java.util.concurrent.BlockingDeque;
 
 import javax.security.auth.login.LoginException;
 
-public class MainActivity extends AppCompatActivity implements  View.OnTouchListener {
+public class MainActivity extends AppCompatActivity implements  View.OnTouchListener, NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "MAIN ACTIVITY";
     private GridView lettersGripPanel;
     private GridView wordsContainer;
     private Toolbar toolbar;
     private TextView toolbarCounter;
-
+    private DrawerLayout drawer;
     private Chronometer toolbarChronometer;
     private boolean running;
-    private boolean isNewGame;
+    private NavigationView navigationView;
 
     private WordPlacement wpd;
     private int wordsCounter;
@@ -61,8 +69,34 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
         toolbar = (Toolbar) findViewById(R.id.application_toolbar);
         toolbarCounter = (TextView) findViewById(R.id.toolbarCounter);
         toolbarChronometer = (Chronometer) findViewById(R.id.toolbarTimer);
+        navigationView = findViewById(R.id.nav_view);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         startGame();
+    }
+
+    public boolean onNavigationItemSelected( MenuItem item) {
+        //Look at your menu XML file. Put a case for every id in that file:
+        switch(item.getItemId()) {
+            case R.id.drawer_github:
+                //Sets the intent to be passed as argument to the startActivity method
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/andressamachado"));
+                //Goes to the API web page
+                startActivity(browserIntent);
+                break;
+            case R.id.drawer_linkedin:
+                //Sets the intent to be passed as argument to the startActivity method
+                browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.linkedin.com/in/andressa-machado-59705792/"));
+                //Goes to the API web page
+                startActivity(browserIntent);
+                break;
+        }
+
+        //Close the navigation drawer
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout.closeDrawer(GravityCompat.START);
+
+        return false;
     }
 
     private void startGame() {
@@ -92,12 +126,20 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
     }
 
     private void initializeToolbar() {
-        //Sets the toolbar title to empty string to not display the name of the project there as it
-        //does not have space to display everything we have to display.
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         toolbarCounter.setText(wordsCounter + "/" + wpd.getUsedWordsList().size());
+
+        initializeNavigationDrawer();
+
         startChronometer(toolbarChronometer);
+    }
+
+    private void initializeNavigationDrawer() {
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.open, R.string.close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     private void setGridDimensions() {

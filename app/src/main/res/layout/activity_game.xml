@@ -7,82 +7,108 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/application_toolbar"
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:background="@color/colorPrimary"
-        android:elevation="4dp"
-        android:minHeight="?attr/actionBarSize"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        tools:openDrawer="start">
 
-        <TextView
-            android:id="@+id/toolbarTitle"
+        <!-- THIS IS WHAT IS VISIBLE ON SCREEN:-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/application_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:background="@color/colorPrimary"
+                android:elevation="4dp"
+                android:minHeight="?attr/actionBarSize"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/toolbarTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/fredoka_one"
+                    android:text="@string/application_title"
+                    android:textSize="25sp" />
+
+                <Chronometer
+                    android:id="@+id/toolbarTimer"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="16dp"
+                    android:textColor="@color/chronometerTextColor"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/toolbarCounter"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/chronometerTextColor"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </androidx.appcompat.widget.Toolbar>
+
+            <GridView
+                android:id="@+id/letters_grid_panel"
+                android:layout_width="380dp"
+                android:layout_height="380dp"
+                android:background="@android:color/white"
+                android:numColumns="10"
+                android:layout_marginTop="20dp"
+                app:layout_constraintBottom_toTopOf="@+id/words_grid_panel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/application_toolbar" />
+
+            <GridView
+                android:id="@+id/words_grid_panel"
+                android:layout_width="262dp"
+                android:layout_height="200dp"
+                android:background="@color/colorPrimary"
+                android:clickable="false"
+                android:numColumns="2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="150dp"
+                android:layout_height="200dp"
+                android:background="@color/colorPrimary"
+                android:src="@drawable/main_image"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/words_grid_panel"
+                app:layout_constraintTop_toTopOf="@+id/words_grid_panel" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- THIS IS WHAT IS WHAT POPS OUT FROM THE SIDE:-->
+        <com.google.android.material.navigation.NavigationView
+            app:headerLayout="@layout/navigation_drawer_header"
+            app:menu="@menu/navigation_drawer_menu"
+            android:id="@+id/nav_view"
+            android:fitsSystemWindows="true"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:fontFamily="@font/fredoka_one"
-            android:text="@string/application_title"
-            android:textSize="25sp" />
+            android:layout_gravity="start"/>
 
-        <Chronometer
-            android:id="@+id/toolbarTimer"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:layout_marginEnd="16dp"
-            android:textSize="20sp"
-            android:textColor="@color/chronometerTextColor"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/toolbarCounter"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:layout_marginEnd="10dp"
-            android:textSize="20sp"
-            android:textColor="@color/chronometerTextColor"
-            android:textStyle="bold"/>
-
-    </androidx.appcompat.widget.Toolbar>
-
-
-    <GridView
-        android:id="@+id/letters_grid_panel"
-        android:layout_width="380dp"
-        android:layout_height="380dp"
-        android:background="@android:color/white"
-        android:numColumns="10"
-        android:layout_marginTop="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/words_grid_panel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/application_toolbar" />
-
-    <GridView
-        android:id="@+id/words_grid_panel"
-        android:layout_width="262dp"
-        android:layout_height="200dp"
-        android:background="@color/colorPrimary"
-        android:clickable="false"
-        android:numColumns="2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="150dp"
-        android:layout_height="200dp"
-        android:background="@color/colorPrimary"
-        android:src="@drawable/main_image"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/words_grid_panel"
-        app:layout_constraintTop_toTopOf="@+id/words_grid_panel" />
+    </androidx.drawerlayout.widget.DrawerLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
