@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                 initialX = event.getX();
                 initialY = event.getY();
 
-                lettersGripPanel.getChildAt(initialSwipePosition).setBackgroundColor(getResources().getColor(R.color.wordBeingSelectedBg));
+                lettersGripPanel.getChildAt(initialSwipePosition).setBackground(getResources().getDrawable(R.drawable.word_being_selected_background));
 
                 Log.e(TAG, ((TextView) v).getText().toString() + " ");
                 Log.e("x: ", (initialX + " "));
@@ -192,7 +192,8 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
 
                         //finding current cell position
                         currentPosition = initialSwipePosition + Math.round(moveX / cellWidth);
-                        lettersGripPanel.getChildAt(currentPosition).setBackgroundColor(getResources().getColor(R.color.wordBeingSelectedBg));
+                        lettersGripPanel.getChildAt(currentPosition).setBackground(getResources().getDrawable(R.drawable.word_being_selected_background));
+                        //lettersGripPanel.getChildAt(currentPosition).setBackgroundColor(getResources().getColor(R.color.wordBeingSelectedBg));
 
                         //horizontal move to the right
                         Log.d(TAG, "moveY: "+moveX);
@@ -203,7 +204,8 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
 
                         //finding current cell position
                         currentPosition = initialSwipePosition +  Math.round(moveX / cellWidth);
-                        lettersGripPanel.getChildAt(currentPosition).setBackgroundColor(getResources().getColor(R.color.wordBeingSelectedBg));
+                        lettersGripPanel.getChildAt(currentPosition).setBackground(getResources().getDrawable(R.drawable.word_being_selected_background));
+                        //lettersGripPanel.getChildAt(currentPosition).setBackgroundColor(getResources().getColor(R.color.wordBeingSelectedBg));
                         direction = MoveDirection.HORIZONTAL;
 
                     }
@@ -214,7 +216,8 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                     if (moveY > 0 && moveY > cellHeight) {
                         //finding current cell position
                         currentPosition = initialSwipePosition + Math.round(moveY / cellHeight) * 10;
-                        lettersGripPanel.getChildAt(currentPosition).setBackgroundColor(getResources().getColor(R.color.wordBeingSelectedBg));
+                        lettersGripPanel.getChildAt(currentPosition).setBackground(getResources().getDrawable(R.drawable.word_being_selected_background));
+                        //lettersGripPanel.getChildAt(currentPosition).setBackgroundColor(getResources().getColor(R.color.wordBeingSelectedBg));
 
                         Log.d(TAG, "moveY: "+moveY);
                         direction = MoveDirection.VERTICAL;
@@ -223,7 +226,8 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                     } else if (moveY < 0 && (-1) * moveY > cellHeight){
                         //finding current cell position
                         currentPosition = initialSwipePosition + Math.round(moveY / cellHeight) * 10;
-                        lettersGripPanel.getChildAt(currentPosition).setBackgroundColor(getResources().getColor(R.color.wordBeingSelectedBg));
+                        lettersGripPanel.getChildAt(currentPosition).setBackground(getResources().getDrawable(R.drawable.word_being_selected_background));
+                        //lettersGripPanel.getChildAt(currentPosition).setBackgroundColor(getResources().getColor(R.color.wordBeingSelectedBg));
 
                         Log.d(TAG, "moveY: "+moveY);
                         Log.d(TAG, "up: " );
@@ -274,16 +278,17 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                         }
                     }
 
-                    color = isFound ? getResources().getColor(R.color.wordHorizontallyFoundBg) : Color.WHITE;
+                    color = isFound ? R.drawable.word_horizontally_found_background : R.drawable.word_not_found_background
+                    ;
 
                     if (moveX > 0) {
                         for (int i = initialSwipePosition; i <= finalSwipePosition; i++){
-                            lettersGripPanel.getChildAt(i).setBackgroundColor(color);
+                            lettersGripPanel.getChildAt(i).setBackground(getResources().getDrawable(color));
                         }
                     }
                     if (moveX < 0) {
                         for (int i = finalSwipePosition; i <= initialSwipePosition; i++){
-                            lettersGripPanel.getChildAt(i).setBackgroundColor(color);
+                            lettersGripPanel.getChildAt(i).setBackground(getResources().getDrawable(color));
                         }
                     }
                 }
@@ -304,17 +309,17 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                         }
                     }
 
-                    color = isFound ? getResources().getColor(R.color.wordVerticallyFoundBg) : Color.WHITE;
+                    color = isFound ? R.drawable.word_vertically_found_background : R.drawable.word_not_found_background;
 
                     if (moveY > 0) {
                         for (int i = initialSwipePosition; i <= finalSwipePosition; i+=10){
-                            lettersGripPanel.getChildAt(i).setBackgroundColor(color);
+                            lettersGripPanel.getChildAt(i).setBackground(getResources().getDrawable(color));
                         }
                     }
 
                     if (moveY < 0){
                         for (int i = finalSwipePosition; i <= initialSwipePosition; i+=10){
-                            lettersGripPanel.getChildAt(i).setBackgroundColor(color);
+                            lettersGripPanel.getChildAt(i).setBackground(getResources().getDrawable(color));
                         }
                     }
                 }
