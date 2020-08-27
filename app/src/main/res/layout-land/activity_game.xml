@@ -2,13 +2,15 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/BaseLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/application_toolbar"
-        android:layout_width="match_parent"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
@@ -16,6 +18,7 @@
         android:background="@color/colorPrimary"
         android:elevation="4dp"
         android:minHeight="?attr/actionBarSize"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
@@ -24,30 +27,39 @@
             android:layout_height="match_parent"
             android:fontFamily="@font/fredoka_one"
             android:text="@string/application_title"
-            android:textSize="25sp" />
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/toolbarCounter"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Chronometer
             android:id="@+id/toolbarTimer"
-            android:layout_width="60dp"
+            android:layout_width="45dp"
             android:layout_height="match_parent"
             android:layout_gravity="end"
-            android:layout_marginEnd="16dp"
-            android:textSize="20sp"
             android:textColor="@color/chronometerTextColor"
-            android:textStyle="bold"/>
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/toolbarTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/toolbarCounter"
-            android:layout_width="50dp"
+            android:layout_width="45dp"
             android:layout_height="match_parent"
             android:layout_gravity="end"
-            android:layout_marginEnd="10dp"
-            android:textSize="20sp"
             android:textColor="@color/chronometerTextColor"
-            android:textStyle="bold"/>
-
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.069"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbarTimer"
+            app:layout_constraintVertical_bias="1.0" />
     </androidx.appcompat.widget.Toolbar>
-
 
     <GridView
         android:id="@+id/letters_grid_panel"
@@ -55,21 +67,25 @@
         android:layout_height="380dp"
         android:background="@android:color/white"
         android:numColumns="10"
-        android:layout_marginTop="20dp"
         app:layout_constraintBottom_toTopOf="@+id/words_grid_panel"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.954"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/application_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/application_toolbar"
+        app:layout_constraintVertical_bias="0.126" />
 
     <GridView
         android:id="@+id/words_grid_panel"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_width="280dp"
+        android:layout_height="362dp"
         android:background="@color/colorPrimary"
         android:clickable="false"
-        android:numColumns="3"
+        android:numColumns="1"
+        android:paddingTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/letters_grid_panel"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/application_toolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

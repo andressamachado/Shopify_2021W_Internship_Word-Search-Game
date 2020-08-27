@@ -18,6 +18,9 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.concurrent.BlockingDeque;
+
+import javax.security.auth.login.LoginException;
 
 public class MainActivity extends AppCompatActivity implements  View.OnTouchListener {
     private static final String TAG = "MAIN ACTIVITY";
@@ -67,9 +70,6 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
         wpd.getUsedWordsList();
         wordsCounter = 0;
 
-        //Get width of grid and sets it to the height to make it a perfect square and facilitate swiping
-        cellWidth = getResources().getDisplayMetrics().widthPixels / 10.0f;
-
         direction = MoveDirection.NONE;
         initialSwipePosition = -1;
         finalSwipePosition = -1;
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
 
         setAdapters();
         initializeToolbar();
-        setGridHeight();
+        setGridDimensions();
     }
 
     private void setAdapters() {
@@ -100,10 +100,33 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
         startChronometer(toolbarChronometer);
     }
 
-    private void setGridHeight() {
-        ViewGroup.LayoutParams p = lettersGripPanel.getLayoutParams();
-        p.height =  getResources().getDisplayMetrics().widthPixels;
-        lettersGripPanel.setLayoutParams(p);
+    private void setGridDimensions() {
+        int w, h;
+
+        w = getResources().getDisplayMetrics().widthPixels;
+        h = getResources().getDisplayMetrics().heightPixels;
+
+        if (w > h){
+            //Get width of grid and sets it to the height to make it a perfect square and facilitate swiping
+            cellWidth = getResources().getDisplayMetrics().heightPixels / 10.0f;
+
+//            ViewGroup.LayoutParams p = lettersGripPanel.getLayoutParams();
+//            p.width =  getResources().getDisplayMetrics().heightPixels;
+//            lettersGripPanel.setLayoutParams(p);
+
+            Log.e(TAG, "DEITADAAAAH");
+        } else {
+
+            //Get width of grid and sets it to the height to make it a perfect square and facilitate swiping
+            cellWidth = getResources().getDisplayMetrics().widthPixels / 10.0f;
+
+            ViewGroup.LayoutParams p = lettersGripPanel.getLayoutParams();
+            p.height =  getResources().getDisplayMetrics().widthPixels;
+            lettersGripPanel.setLayoutParams(p);
+
+            Log.e(TAG, "LEVANTADAAAAH");
+        }
+
     }
 
     public void startChronometer(View v){
