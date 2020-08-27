@@ -3,4 +3,5 @@
     <string name="application_title">Word Search Game</string>
     <string name="game_final_title">Congratulations!</string>
     <string name="game_final_subtitle">You have found every single word in this round</string>
+    <string name="splash_screen_subtitle">Can you beat the record time?</string>
 </resources>
