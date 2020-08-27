@@ -11,7 +11,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/application_toolbar"
         android:layout_width="280dp"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
@@ -21,44 +21,56 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/toolbarTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:fontFamily="@font/fredoka_one"
-            android:text="@string/application_title"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/toolbarCounter"
-            app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/toolbarTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/fredoka_one"
+                android:text="@string/application_title"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/toolbarCounter"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <Chronometer
-            android:id="@+id/toolbarTimer"
-            android:layout_width="45dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:textColor="@color/chronometerTextColor"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/toolbarTitle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="end">
+                <Chronometer
+                    android:id="@+id/toolbarTimer"
+                    android:layout_width="45dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
+                    android:textColor="@color/chronometerTextColor"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/toolbarTitle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/toolbarCounter"
-            android:layout_width="45dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:textColor="@color/chronometerTextColor"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.069"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbarTimer"
-            app:layout_constraintVertical_bias="1.0" />
+                <TextView
+                    android:id="@+id/toolbarCounter"
+                    android:layout_width="45dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:gravity="center"
+                    android:textColor="@color/chronometerTextColor"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:paddingStart="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.069"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/toolbarTimer"
+                    app:layout_constraintVertical_bias="1.0" />
+            </LinearLayout>
+        </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
     <GridView
@@ -77,7 +89,7 @@
     <GridView
         android:id="@+id/words_grid_panel"
         android:layout_width="280dp"
-        android:layout_height="362dp"
+        android:layout_height="350dp"
         android:background="@color/colorPrimary"
         android:clickable="false"
         android:numColumns="1"
