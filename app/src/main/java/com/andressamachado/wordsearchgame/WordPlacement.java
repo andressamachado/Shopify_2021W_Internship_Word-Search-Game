@@ -19,6 +19,7 @@ public class WordPlacement {
         grid();
         placeWordsHorizontally(0,2);
         placeWordsVertically(2,2);
+        placeWordsDiagonally(4,2);
         return grid;
     }
 
@@ -164,6 +165,72 @@ public class WordPlacement {
             }
 
             wordTobePlaced.setEndGridPosition(indexToBeUsed - 10);
+
+            usedWords.add(wordTobePlaced);
+            wordIndex++;
+            indexCounter = 0;
+            i++;
+        }
+    }
+
+    private void placeWordsDiagonally(int startPosition, int amountOfWords) {
+        List<Integer> usedIndexes = new ArrayList<>();
+        int wordIndex = startPosition;
+        int indexToBeUsed = 0;
+        int wordSize;
+        Word wordTobePlaced;
+        indexCounter=0;
+
+        for (int i = 0; i < amountOfWords; ) {
+            //for (int i = 0; i < 1;){
+
+            wordTobePlaced = words.get(wordIndex);
+            // wordTobePlaced = new Word("swift");
+
+            if (indexCounter > INDEX_GRID_MAX_VALUE){
+                wordIndex++;
+                i++;
+                indexCounter = 0;
+                continue;
+            }
+
+            indexToBeUsed = getRandomIndexValue(indexCounter++);
+            //indexToBeUsed = 3;
+
+            if (usedIndexes.contains(indexToBeUsed)) {
+                continue;
+            }
+
+            wordSize = wordTobePlaced.getContent().length();
+
+            boolean containIndex= false;
+            boolean letterDoesntMatch = false;
+
+            if (wordSize > ROW_SIZE - (indexToBeUsed / ROW_SIZE) || wordSize > (ROW_SIZE - (indexToBeUsed % ROW_SIZE))) {
+                continue;
+            }
+
+            for (int testIndex = 0; testIndex < wordSize ; testIndex++) {
+
+                containIndex = usedIndexes.contains(indexToBeUsed + (testIndex * 11));
+                letterDoesntMatch = (usedIndexesGlobal.contains(indexToBeUsed+  (testIndex * 11))) && (wordTobePlaced.getContent().charAt(testIndex) != grid[indexToBeUsed+  (testIndex * 11)]);
+
+                if (containIndex || letterDoesntMatch){
+                    break;
+                }
+            }
+
+            if (containIndex || letterDoesntMatch){
+                continue;
+            }
+
+            for (int indexPosition = 0; indexPosition < wordSize; indexPosition++) {
+                grid[indexToBeUsed] = wordTobePlaced.getContent().charAt(indexPosition);
+
+                usedIndexes.add(indexToBeUsed);
+                indexToBeUsed += 11;
+                usedIndexesGlobal.add(indexToBeUsed);
+            }
 
             usedWords.add(wordTobePlaced);
             wordIndex++;
