@@ -224,6 +224,8 @@ public class WordPlacement {
                 continue;
             }
 
+            wordTobePlaced.setStartGridPosition(indexToBeUsed);
+
             for (int indexPosition = 0; indexPosition < wordSize; indexPosition++) {
                 grid[indexToBeUsed] = wordTobePlaced.getContent().charAt(indexPosition);
 
@@ -231,6 +233,9 @@ public class WordPlacement {
                 indexToBeUsed += 11;
                 usedIndexesGlobal.add(indexToBeUsed);
             }
+
+            wordTobePlaced.setEndGridPosition(indexToBeUsed - 11);
+
 
             usedWords.add(wordTobePlaced);
             wordIndex++;

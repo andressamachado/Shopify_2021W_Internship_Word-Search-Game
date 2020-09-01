@@ -47,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
     private int finalSwipePosition;
     private float cellWidth;
     private float cellHeight;
+    double cellDiagonal;
+    double distance;
 
     private enum MoveDirection {
         NONE,
@@ -235,9 +237,8 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                         Log.d(TAG, "DIAGONAL");
                         //quando andou eh maior que a distancia entre os dois centros de celula na diagonal
                         //cellwidth * sqrt(2)
-                        double distance;
                         distance = Math.sqrt(Math.pow(moveX, 2) + (Math.pow(moveY, 2)));
-                        double cellDiagonal = cellWidth * Math.sqrt(2);
+                        cellDiagonal = cellWidth * Math.sqrt(2);
 
                         if (distance > cellDiagonal){
                             Log.d(TAG, "DIAGONAL ANDADA ");
@@ -248,28 +249,28 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                                 //direita e baixo
                                 //regra de acordo com o grid
                                 currentPosition = initialSwipePosition + 11 * Math.round((float) (distance / cellDiagonal));
-
                                 lettersGripPanel.getChildAt(currentPosition).setBackground(getResources().getDrawable(R.drawable.word_being_selected_background));
+                                direction = MoveDirection.DIAGONAL;
                             }
 
                             if (moveX > 0 && moveY < 0){
                                 //direita e baixo
                                 //regra de acordo com o grid
                                 currentPosition = initialSwipePosition + (-9) * Math.round((float) (distance / cellDiagonal));
-
                                 lettersGripPanel.getChildAt(currentPosition).setBackground(getResources().getDrawable(R.drawable.word_being_selected_background));
+                                direction = MoveDirection.DIAGONAL;
                             }
 
                             if (moveX < 0 && moveY > 0){
                                 currentPosition = initialSwipePosition + 9 * Math.round((float) (distance / cellDiagonal));
-
                                 lettersGripPanel.getChildAt(currentPosition).setBackground(getResources().getDrawable(R.drawable.word_being_selected_background));
+                                direction = MoveDirection.DIAGONAL;
                             }
 
                             if (moveX < 0 && moveY < 0){
                                 currentPosition = initialSwipePosition + (-11) * Math.round((float) (distance / cellDiagonal));
-
                                 lettersGripPanel.getChildAt(currentPosition).setBackground(getResources().getDrawable(R.drawable.word_being_selected_background));
+                                direction = MoveDirection.DIAGONAL;
                             }
                         }
                     }
@@ -352,6 +353,69 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                 int endPosition;
                 int color;
 
+                if (direction == MoveDirection.DIAGONAL) {
+                    int cellCounter;
+
+                    //1
+                    if (moveX > 0 && moveY < 0){
+                        cellCounter = -9;
+                        finalSwipePosition = initialSwipePosition + cellCounter * Math.round((float) (distance / cellDiagonal));
+                    }
+                    //2
+                    if (moveX < 0 && moveY > 0){
+                        cellCounter = 9;
+                        finalSwipePosition = initialSwipePosition + cellCounter * Math.round((float) (distance / cellDiagonal));
+                    }
+                    //3
+                    if (moveX > 0 && moveY > 0){
+                       cellCounter = 11;
+                        finalSwipePosition = initialSwipePosition + cellCounter * Math.round((float) (distance / cellDiagonal));
+                    }
+                    //4
+                    if (moveX < 0 && moveY < 0){
+                        cellCounter = -11;
+                        finalSwipePosition = initialSwipePosition + cellCounter * Math.round((float) (distance / cellDiagonal));
+                    }
+
+                    startPosition = (moveX < 0 && moveY > 0) || (moveX > 0 && moveY > 0) ? initialSwipePosition : finalSwipePosition;
+                    endPosition = (moveX < 0 && moveY > 0) || (moveX > 0 && moveY > 0) ? finalSwipePosition : initialSwipePosition;
+
+                    for(int i = 0; i < usedWordsList.size(); i++){
+                        if(usedWordsList.get(i).getStartGridPosition() == startPosition && usedWordsList.get(i).getEndGridPosition() == endPosition){
+                            usedWordsList.get(i).setFound(true);
+                            isFound = true;
+                            wordsCounter++;
+                            break;
+                        }
+                    }
+
+                    color = isFound ? R.drawable.word_diagonally_found_background : R.drawable.word_not_found_background;
+                    //1
+                    if (moveX > 0 && moveY < 0) {
+                        for (int i = initialSwipePosition; i >= finalSwipePosition; i-=9){
+                            lettersGripPanel.getChildAt(i).setBackground(getResources().getDrawable(color));
+                        }
+                    }
+                    //2
+                    if (moveX < 0 && moveY > 0) {
+                        for (int i = initialSwipePosition; i <= finalSwipePosition; i+=9){
+                            lettersGripPanel.getChildAt(i).setBackground(getResources().getDrawable(color));
+                        }
+                    }
+                    //3
+                    if (moveX > 0 && moveY > 0) {
+                        for (int i = initialSwipePosition; i <= finalSwipePosition; i+=11){
+                            lettersGripPanel.getChildAt(i).setBackground(getResources().getDrawable(color));
+                        }
+                    }
+                    //4
+                    if (moveX < 0 && moveY < 0) {
+                        for (int i = initialSwipePosition; i >= finalSwipePosition; i-=11){
+                            lettersGripPanel.getChildAt(i).setBackground(getResources().getDrawable(color));
+                        }
+                    }
+                }
+
                 if (direction == MoveDirection.HORIZONTAL) {
                     //Checking if word was found
                     finalSwipePosition = initialSwipePosition + Math.round(moveX / cellWidth);
@@ -368,8 +432,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                         }
                     }
 
-                    color = isFound ? R.drawable.word_horizontally_found_background : R.drawable.word_not_found_background
-                    ;
+                    color = isFound ? R.drawable.word_horizontally_found_background : R.drawable.word_not_found_background;
 
                     if (moveX > 0) {
                         for (int i = initialSwipePosition; i <= finalSwipePosition; i++){
