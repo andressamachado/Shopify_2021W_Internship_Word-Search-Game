@@ -49,9 +49,10 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
     private float cellHeight;
 
     private enum MoveDirection {
-        HORIZONTAL,
         NONE,
-        VERTICAL
+        HORIZONTAL,
+        VERTICAL,
+        DIAGONAL
     }
     private MoveDirection direction;
     private float moveX;
@@ -228,7 +229,53 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
 
                 int currentPosition;
 
-                if(direction == MoveDirection.NONE || direction == MoveDirection.HORIZONTAL) {
+
+                if (direction == MoveDirection.NONE || direction == MoveDirection.DIAGONAL){
+                    if ((Math.abs(moveX) > 0 && Math.abs(moveY) > 0) && (Math.abs(moveX/moveY) > 0.75 && Math.abs(moveX/moveY) < 1.25)){
+                        Log.d(TAG, "DIAGONAL");
+                        //quando andou eh maior que a distancia entre os dois centros de celula na diagonal
+                        //cellwidth * sqrt(2)
+                        double distance;
+                        distance = Math.sqrt(Math.pow(moveX, 2) + (Math.pow(moveY, 2)));
+                        double cellDiagonal = cellWidth * Math.sqrt(2);
+
+                        if (distance > cellDiagonal){
+                            Log.d(TAG, "DIAGONAL ANDADA ");
+                            direction = MoveDirection.DIAGONAL;
+                            //descobrir para qual das 4 direcoes
+                            //currentPosition = initialSwipePosition + Math.round((float) (distance / cellDiagonal));
+                            if (moveX > 0 && moveY > 0){
+                                //direita e baixo
+                                //regra de acordo com o grid
+                                currentPosition = initialSwipePosition + 11 * Math.round((float) (distance / cellDiagonal));
+
+                                lettersGripPanel.getChildAt(currentPosition).setBackground(getResources().getDrawable(R.drawable.word_being_selected_background));
+                            }
+
+                            if (moveX > 0 && moveY < 0){
+                                //direita e baixo
+                                //regra de acordo com o grid
+                                currentPosition = initialSwipePosition + (-9) * Math.round((float) (distance / cellDiagonal));
+
+                                lettersGripPanel.getChildAt(currentPosition).setBackground(getResources().getDrawable(R.drawable.word_being_selected_background));
+                            }
+
+                            if (moveX < 0 && moveY > 0){
+                                currentPosition = initialSwipePosition + 9 * Math.round((float) (distance / cellDiagonal));
+
+                                lettersGripPanel.getChildAt(currentPosition).setBackground(getResources().getDrawable(R.drawable.word_being_selected_background));
+                            }
+
+                            if (moveX < 0 && moveY < 0){
+                                currentPosition = initialSwipePosition + (-11) * Math.round((float) (distance / cellDiagonal));
+
+                                lettersGripPanel.getChildAt(currentPosition).setBackground(getResources().getDrawable(R.drawable.word_being_selected_background));
+                            }
+                        }
+                    }
+                }
+
+                if (direction == MoveDirection.NONE || direction == MoveDirection.HORIZONTAL) {
                     //moveX positive means user is moving their finger to the right
                     if (moveX > 0 && moveX > cellWidth) {
 
@@ -276,6 +323,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                         direction = MoveDirection.VERTICAL;
                     }
                 }
+
 
             break;
 
