@@ -19,23 +19,23 @@ keeps track of the time passed and allows the user to start a new game when ever
 Application was developed using `Android SDK 6.0 API 23 Marshmallow`.
 
 ## Running the Application
-An APK was generated and added to this repository, you can find it following this path [Song-Lyrics-Search-Application/app/release/app-release.apk](https://github.com/andressamachado/Song-Lyrics-Search-Application/blob/master/app/release/app-release.apk)
-, but please, be aware that this application was developed under API 23 and some functions could not run properly in some devices with lower API.
+An APK was generated and added to this repository, you can find it following this path [Word-Search-Game/app/release/app-release.apk](https://github.com/andressamachado/Song-Lyrics-Search-Application/blob/master/app/release/app-release.apk), but please, be aware that this application was developed under API 23 and some functions could not run properly in some devices with lower API.
 
 You can always clone the project, and using Android Studio, run the application using an Android Virtual Device (AVD) with API 23.
 
-## Screenshots - app running on a phone
-There are more screenshots under [Song-Lyrics-Search-Application/screenshots/](https://github.com/andressamachado/Song-Lyrics-Search-Application/tree/master/screenshots)
+## Illustrations
+Every Illustration used in this project are from the Artist **_Dmitry Nikulnikov_** .
+Those illustrations are the free low-quality trial and this application is only for practice and academic purpose. The applications won`t be published.
 
+The **_Dmitry Nikulnikov`s_** Arabica collection can be found [here](https://icons8.com/illustrations/style--arabica).
 
-![](screenshots/2_splashscreen.PNG) ![](screenshots/3_main_activity.png) ![](screenshots/6_user_input.png) ![](screenshots/7_custom_progress_bar.png) 
-![](screenshots/8_lyric_activity.png) ![](screenshots/10_dark_mode.png) ![](screenshots/12_lyric_activity_dark_mode.png) ![](screenshots/14_lyric_not_found.png)
+## Screenshots - app running in a portrait mode 
 
-## Screenshots - app running on a tablet
-There are more screenshots under [Song-Lyrics-Search-Application/screenshots/](https://github.com/andressamachado/Song-Lyrics-Search-Application/tree/master/screenshots)
+![](screenshots/Portrait_SplashScreen.png) ![](screenshots/Portrait_NoWordFound.PNG) ![](screenshots/Portrait_WordsFound.png) ![](screenshots/Portrait_EndGame.png) 
 
+## Screenshots - app running in a landscape mode
 
-![](screenshots/T5_tablet_fragment.PNG)
+![](screenshots/Landscape_NoWordFound.png) ![](screenshots/Landscape_WordsFound.png) ![](screenshots/Landscape_EndGame.PNG)
 
 ## Contact 
 I can be reached at pess0005@algonquinlive.com, andressa.pamachado@gmail.com or via my [LinkedIn](https://www.linkedin.com/in/andressa-machado-59705792/) page.
