@@ -8,119 +8,141 @@
     android:layout_height="match_parent" >
 
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/application_toolbar"
-        android:layout_width="280dp"
-        android:layout_height="56dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:background="@color/colorPrimary"
-        android:elevation="4dp"
-        android:minHeight="?attr/actionBarSize"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:openDrawer="start">
 
-        <LinearLayout
+        <!-- THIS IS WHAT IS VISIBLE ON SCREEN:-->
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/toolbarTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/fredoka_one"
-                android:text="@string/application_title"
-                android:textSize="20sp"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/application_toolbar"
+                android:layout_width="280dp"
+                android:layout_height="56dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:background="@color/colorPrimary"
+                android:elevation="4dp"
+                android:minHeight="?attr/actionBarSize"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/toolbarTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/fredoka_one"
+                        android:text="@string/application_title"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/toolbarCounter"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="end">
+                        <Chronometer
+                            android:id="@+id/toolbarTimer"
+                            android:layout_width="45dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="start"
+                            android:textColor="@color/chronometerTextColor"
+                            android:textSize="17sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toStartOf="@+id/toolbarTitle"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/toolbarCounter"
+                            android:layout_width="45dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="end"
+                            android:gravity="center"
+                            android:textColor="@color/chronometerTextColor"
+                            android:textSize="17sp"
+                            android:textStyle="bold"
+                            android:paddingStart="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.069"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/toolbarTimer"
+                            app:layout_constraintVertical_bias="1.0" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.appcompat.widget.Toolbar>
+
+            <GridView
+                android:id="@+id/letters_grid_panel"
+                android:layout_width="380dp"
+                android:layout_height="380dp"
+                android:background="@android:color/white"
+                android:numColumns="10"
+                app:layout_constraintBottom_toTopOf="@+id/words_grid_panel"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/toolbarCounter"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintHorizontal_bias="0.954"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/application_toolbar"
+                app:layout_constraintVertical_bias="0.126" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="end">
-                <Chronometer
-                    android:id="@+id/toolbarTimer"
-                    android:layout_width="45dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="start"
-                    android:textColor="@color/chronometerTextColor"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/toolbarTitle"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <GridView
+                android:id="@+id/words_grid_panel"
+                android:layout_width="170dp"
+                android:layout_height="355dp"
+                android:background="@color/colorPrimary"
+                android:clickable="false"
+                android:numColumns="1"
+                android:paddingTop="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imageView"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/application_toolbar"
+                app:layout_constraintVertical_bias="1.0" />
 
-                <TextView
-                    android:id="@+id/toolbarCounter"
-                    android:layout_width="45dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="end"
-                    android:gravity="center"
-                    android:textColor="@color/chronometerTextColor"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    android:paddingStart="10dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.069"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/toolbarTimer"
-                    app:layout_constraintVertical_bias="1.0" />
-            </LinearLayout>
-        </LinearLayout>
-    </androidx.appcompat.widget.Toolbar>
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="110dp"
+                android:layout_height="177dp"
+                android:background="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="@+id/application_toolbar"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/application_toolbar" />
 
-    <GridView
-        android:id="@+id/letters_grid_panel"
-        android:layout_width="380dp"
-        android:layout_height="380dp"
-        android:background="@android:color/white"
-        android:numColumns="10"
-        app:layout_constraintBottom_toTopOf="@+id/words_grid_panel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.954"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/application_toolbar"
-        app:layout_constraintVertical_bias="0.126" />
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="110dp"
+                android:layout_height="180dp"
+                android:background="@color/colorPrimary"
+                android:src="@drawable/main_image"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/imageView2"
+                app:layout_constraintStart_toStartOf="@+id/imageView2"
+                app:layout_constraintTop_toBottomOf="@+id/imageView2"
+                app:layout_constraintVertical_bias="1.0" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <GridView
-        android:id="@+id/words_grid_panel"
-        android:layout_width="170dp"
-        android:layout_height="355dp"
-        android:background="@color/colorPrimary"
-        android:clickable="false"
-        android:numColumns="1"
-        android:paddingTop="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/application_toolbar"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="110dp"
-        android:layout_height="177dp"
-        android:background="@color/colorPrimary"
-        app:layout_constraintEnd_toEndOf="@+id/application_toolbar"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/application_toolbar" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="110dp"
-        android:layout_height="180dp"
-        android:background="@color/colorPrimary"
-        android:src="@drawable/main_image"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/imageView2"
-        app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="1.0" />
-
-
+        <!-- THIS IS WHAT IS WHAT POPS OUT FROM THE SIDE:-->
+        <com.google.android.material.navigation.NavigationView
+            app:headerLayout="@layout/navigation_drawer_header"
+            app:menu="@menu/navigation_drawer_menu"
+            android:id="@+id/nav_view"
+            android:fitsSystemWindows="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"/>
+    </androidx.drawerlayout.widget.DrawerLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
