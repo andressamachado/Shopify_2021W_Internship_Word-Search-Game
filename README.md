@@ -23,6 +23,12 @@ An APK was generated and added to this repository, you can find it following thi
 
 You can always clone the project, and using Android Studio, run the application using an Android Virtual Device (AVD) with API 23.
 
+## Illustrations
+Every Illustration used in this project are from the Artist **_Dmitry Nikulnikov_** .
+Those illustrations are the free low-quality trial and this application is only for practice and academic purpose. The applications won`t be published.
+
+The **_Dmitry Nikulnikov`s_** Arabica collection can be found [here](https://icons8.com/illustrations/style--arabica).
+
 ## Screenshots - app running in a portrait mode 
 
 ![](screenshots/Portrait_SplashScreen.png) ![](screenshots/Portrait_NavigationDrawer.PNG) 
