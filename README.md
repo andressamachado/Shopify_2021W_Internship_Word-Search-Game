@@ -19,23 +19,18 @@ keeps track of the time passed and allows the user to start a new game when ever
 Application was developed using `Android SDK 6.0 API 23 Marshmallow`.
 
 ## Running the Application
-An APK was generated and added to this repository, you can find it following this path [Song-Lyrics-Search-Application/app/release/app-release.apk](https://github.com/andressamachado/Song-Lyrics-Search-Application/blob/master/app/release/app-release.apk)
-, but please, be aware that this application was developed under API 23 and some functions could not run properly in some devices with lower API.
+An APK was generated and added to this repository, you can find it following this path [Song-Lyrics-Search-Application/app/release/app-release.apk](https://github.com/andressamachado/Song-Lyrics-Search-Application/blob/master/app/release/app-release.apk), but please, be aware that this application was developed under API 23 and some functions could not run properly in some devices with lower API.
 
 You can always clone the project, and using Android Studio, run the application using an Android Virtual Device (AVD) with API 23.
 
-## Screenshots - app running on a phone
-There are more screenshots under [Song-Lyrics-Search-Application/screenshots/](https://github.com/andressamachado/Song-Lyrics-Search-Application/tree/master/screenshots)
+## Screenshots - app running in a portrait mode 
 
+![](screenshots/Portrait_SplashScreen.png) ![](screenshots/Portrait_NavigationDrawer.PNG) 
+![](screenshots/Portrait_NoWordFound.PNG) ![](screenshots/Portrait_WordsFound.png) ![](screenshots/Portrait_EndGame.png) 
 
-![](screenshots/2_splashscreen.PNG) ![](screenshots/3_main_activity.png) ![](screenshots/6_user_input.png) ![](screenshots/7_custom_progress_bar.png) 
-![](screenshots/8_lyric_activity.png) ![](screenshots/10_dark_mode.png) ![](screenshots/12_lyric_activity_dark_mode.png) ![](screenshots/14_lyric_not_found.png)
+## Screenshots - app running in a landscape mode
 
-## Screenshots - app running on a tablet
-There are more screenshots under [Song-Lyrics-Search-Application/screenshots/](https://github.com/andressamachado/Song-Lyrics-Search-Application/tree/master/screenshots)
-
-
-![](screenshots/T5_tablet_fragment.PNG)
+![](screenshots/Landscape_NoWordFound.png) ![](screenshots/Landscape_WordsFound.png) ![](screenshots/Landscape_EndGame.PNG)
 
 ## Contact 
 I can be reached at pess0005@algonquinlive.com, andressa.pamachado@gmail.com or via my [LinkedIn](https://www.linkedin.com/in/andressa-machado-59705792/) page.
