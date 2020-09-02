@@ -93,10 +93,9 @@ public class WordPlacement {
             wordTobePlaced.setStartGridPosition(indexToBeUsed);
 
             for (int indexPosition = 0; indexPosition < wordSize; indexPosition++) {
-                grid[indexToBeUsed] = wordTobePlaced.getContent().charAt(indexPosition);
+                grid[indexToBeUsed] = wordTobePlaced.getContent().toUpperCase().charAt(indexPosition);
                 usedIndexes.add(indexToBeUsed);
                 usedIndexesGlobal.add(indexToBeUsed++);
-
             }
 
             wordTobePlaced.setEndGridPosition(indexToBeUsed - 1);
@@ -158,7 +157,7 @@ public class WordPlacement {
             wordTobePlaced.setStartGridPosition(indexToBeUsed);
 
             for (int indexPosition = 0; indexPosition < wordSize; indexPosition++) {
-                grid[indexToBeUsed] = wordTobePlaced.getContent().charAt(indexPosition);
+                grid[indexToBeUsed] = wordTobePlaced.getContent().toUpperCase().charAt(indexPosition);
                 usedIndexes.add(indexToBeUsed);
                 usedIndexesGlobal.add(indexToBeUsed);
                 indexToBeUsed += 10;
@@ -227,7 +226,7 @@ public class WordPlacement {
             wordTobePlaced.setStartGridPosition(indexToBeUsed);
 
             for (int indexPosition = 0; indexPosition < wordSize; indexPosition++) {
-                grid[indexToBeUsed] = wordTobePlaced.getContent().charAt(indexPosition);
+                grid[indexToBeUsed] = wordTobePlaced.getContent().toUpperCase().charAt(indexPosition);
 
                 usedIndexes.add(indexToBeUsed);
                 indexToBeUsed += 11;
