@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--    Layout for every single letter in the grid-->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+<!--    A Letter layout unit to populate the main gridview where the letters are going to be placed-->
     <TextView
         android:layout_width="38dp"
         android:layout_height="38dp"

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--    Layout for the landscape mode-->
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,18 +9,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-
+<!--Navigation Drawer-->
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:openDrawer="start">
 
-        <!-- THIS IS WHAT IS VISIBLE ON SCREEN:-->
+        <!-- THIS IS WHAT IS VISIBLE ON SCREEN[Navigation Drawer]:-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <!--toolbar-->
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/application_toolbar"
                 android:layout_width="280dp"
@@ -32,10 +35,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
+                <!--layout to go inside the toolbar and hold every element of the toolbar-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
+                    <!--Toolbar title-->
                     <TextView
                         android:id="@+id/toolbarTitle"
                         android:layout_width="wrap_content"
@@ -47,11 +53,13 @@
                         app:layout_constraintStart_toEndOf="@+id/toolbarCounter"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <!--Holds counter and chronometer to fit better in the landscape mode toolbar -->
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_gravity="end">
+
                         <Chronometer
                             android:id="@+id/toolbarTimer"
                             android:layout_width="45dp"
@@ -64,6 +72,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
+                        <!--words found counter-->
                         <TextView
                             android:id="@+id/toolbarCounter"
                             android:layout_width="45dp"
@@ -84,6 +93,7 @@
                 </LinearLayout>
             </androidx.appcompat.widget.Toolbar>
 
+            <!--GridView to hold the letters-->
             <GridView
                 android:id="@+id/letters_grid_panel"
                 android:layout_width="380dp"
@@ -97,6 +107,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/application_toolbar"
                 app:layout_constraintVertical_bias="0.126" />
 
+            <!--GridView to hold every word placed in the grid to be found-->
             <GridView
                 android:id="@+id/words_grid_panel"
                 android:layout_width="170dp"
@@ -112,6 +123,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/application_toolbar"
                 app:layout_constraintVertical_bias="1.0" />
 
+            <!--ImageView added to fill the blank space-->
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="110dp"
@@ -135,7 +147,7 @@
                 app:layout_constraintVertical_bias="1.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- THIS IS WHAT IS WHAT POPS OUT FROM THE SIDE:-->
+        <!-- THIS IS WHAT IS WHAT POPS OUT FROM THE SIDE[Navigation Drawer]:-->
         <com.google.android.material.navigation.NavigationView
             app:headerLayout="@layout/navigation_drawer_header"
             app:menu="@menu/navigation_drawer_menu"

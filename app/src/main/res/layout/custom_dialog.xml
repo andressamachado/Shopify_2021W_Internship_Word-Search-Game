@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--    Layout for the end game alert dialog-->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="300dp"
@@ -8,6 +9,7 @@
     android:layout_gravity="center"
     android:background="@drawable/dialog_background">
 
+<!--    title-->
     <TextView
         android:id="@+id/alert_title"
         android:layout_height="wrap_content"
@@ -18,6 +20,7 @@
         android:textSize="20sp"
         android:gravity="center"/>
 
+<!--    subtitle-->
     <TextView
         android:id="@+id/alert_subtitle"
         android:layout_height="wrap_content"
@@ -28,6 +31,7 @@
         android:textSize="14sp"
         android:gravity="center"/>
 
+<!--    image -->
     <ImageView
         android:id="@+id/winner_img"
         android:layout_width="187dp"
@@ -35,6 +39,7 @@
         android:src="@drawable/winner"
         android:layout_gravity="center"/>
 
+<!--    new game button-->
     <Button
         android:id="@+id/new_game_btn"
         android:layout_width="match_parent"

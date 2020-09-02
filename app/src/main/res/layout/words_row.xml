@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--    Layout for every single word to be found placed at the bottom at the screen-->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+<!--    word to be placed in the gridview at the bottom of the screen where words to be found will be placed-->
     <TextView
         android:id="@+id/wordToFind"
         android:layout_width="match_parent"

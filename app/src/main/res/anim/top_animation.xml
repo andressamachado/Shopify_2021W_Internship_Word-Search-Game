@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--animation to add very simple movements to the title and subtitle on the SplashScreen-->
 <set xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!--Movement from the top to "center" of the screen-->
     <translate
         android:fromXDelta="0%"
         android:fromYDelta="-50%"

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--    Layout for the portrait mode-->
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,17 +9,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <!--Navigation Drawer-->
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:openDrawer="start">
 
-        <!-- THIS IS WHAT IS VISIBLE ON SCREEN:-->
+        <!-- THIS IS WHAT IS VISIBLE ON SCREEN[Navigation Drawer]:-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
+            <!--toolbar-->
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/application_toolbar"
                 android:layout_width="match_parent"
@@ -32,6 +36,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
+                <!--Toolbar title-->
                 <TextView
                     android:id="@+id/toolbarTitle"
                     android:layout_width="wrap_content"
@@ -50,6 +55,7 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
+                <!--words found counter-->
                 <TextView
                     android:id="@+id/toolbarCounter"
                     android:layout_width="50dp"
@@ -59,9 +65,9 @@
                     android:textColor="@color/chronometerTextColor"
                     android:textSize="20sp"
                     android:textStyle="bold" />
-
             </androidx.appcompat.widget.Toolbar>
 
+            <!--GridView to hold the letters-->
             <GridView
                 android:id="@+id/letters_grid_panel"
                 android:layout_width="380dp"
@@ -74,6 +80,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/application_toolbar" />
 
+            <!--GridView to hold every word placed in the grid to be found-->
             <GridView
                 android:id="@+id/words_grid_panel"
                 android:layout_width="262dp"
@@ -96,10 +103,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/words_grid_panel"
                 app:layout_constraintTop_toTopOf="@+id/words_grid_panel" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- THIS IS WHAT IS WHAT POPS OUT FROM THE SIDE:-->
+        <!-- THIS IS WHAT IS WHAT POPS OUT FROM THE SIDE[Navigation Drawer]:-->
         <com.google.android.material.navigation.NavigationView
             app:headerLayout="@layout/navigation_drawer_header"
             app:menu="@menu/navigation_drawer_menu"
@@ -108,7 +114,5 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"/>
-
     </androidx.drawerlayout.widget.DrawerLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

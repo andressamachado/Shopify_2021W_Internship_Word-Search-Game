@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--drawable used to change background layout for the new game button-->
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <solid android:color="@color/newGameBtnBackgroundColor"/>
     <corners android:radius="30dp"/>
