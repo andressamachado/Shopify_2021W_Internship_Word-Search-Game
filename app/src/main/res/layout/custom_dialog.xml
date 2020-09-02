@@ -41,6 +41,6 @@
         android:layout_height="30dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/restart_button_background"
-        android:text="New Game"
+        android:text="@string/new_game"
         android:textColor="@color/colorPrimaryDark"/>
 </LinearLayout>

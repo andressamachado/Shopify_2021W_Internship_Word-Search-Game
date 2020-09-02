@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Jogo Caça Palavras</string>
+    <string name="application_title">Caça Palavras</string>
+    <string name="splash_screen_subtitle">Você consegue bater o recorde?</string>
+
+    <!-- Navigation drawer related strings -->
+    <string name="author_name">Andressa Machado</string>
+    <string name="application_version">versão 1.0</string>
+    <string name="drawer_github_page_label">Página no GitHub</string>
+    <string name="drawer_linkedin_label">Perfil no LinkedIn</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+
+    <!--    End Game Alert Dialog related strings-->
+    <string name="game_final_title">Parabéns!</string>
+    <string name="game_final_subtitle">Você achou todas as palavras desse round</string>
+    <string name="new_game">Novo Jogo</string>
+</resources>
