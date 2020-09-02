@@ -8,7 +8,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -27,9 +26,6 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.BlockingDeque;
-
-import javax.security.auth.login.LoginException;
 
 public class MainActivity extends AppCompatActivity implements  View.OnTouchListener, NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "MAIN ACTIVITY";
@@ -41,24 +37,25 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
     private Chronometer toolbarChronometer;
     private NavigationView navigationView;
 
-    private boolean running;
-    private WordPlacement wpd;
-    private int wordsCounter;
-    private int initialSwipePosition;
-    private int finalSwipePosition;
-    private float cellWidth;
-    private float cellHeight;
-    private double cellDiagonal;
-    private double distance;
-
-    private ArrayList<Integer> usedIndexes;
     private enum MoveDirection {
         NONE,
         HORIZONTAL,
         VERTICAL,
         DIAGONAL
     }
+    private WordPlacement wpd;
+
+    private boolean running;
+    private float cellWidth;
+    private float cellHeight;
+    private double cellDiagonal;
+    private int initialSwipePosition;
+    private int finalSwipePosition;
+    private int wordsCounter;
+
+    private ArrayList<Integer> usedIndexes;
     private MoveDirection direction;
+    private double diagonalDistance;
     private float moveX;
     private float moveY;
     private float initialX;
@@ -108,16 +105,9 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
         wpd = new WordPlacement();
         wpd.getUsedWordsList();
         wordsCounter = 0;
-
         usedIndexes = new ArrayList<>();
-        direction = MoveDirection.NONE;
-        initialSwipePosition = -1;
-        finalSwipePosition = -1;
-        moveX = -1;
-        moveY = -1;
-        initialX = -1;
-        initialY = -1;
 
+        resetSwipeRelatedVariables();
         setAdapters();
         initializeToolbar();
         setGridDimensions();
@@ -184,13 +174,6 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
         }
     }
 
-    public void pauseChronometer(View v){
-        if (running){
-            toolbarChronometer.stop();
-            running = false;
-        }
-    }
-
     public void resetChronometer(View v){
         toolbarChronometer.setBase(SystemClock.elapsedRealtime());
         running = false;
@@ -241,41 +224,33 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                         Log.d(TAG, "DIAGONAL");
                         //quando andou eh maior que a distancia entre os dois centros de celula na diagonal
                         //cellwidth * sqrt(2)
-                        distance = Math.sqrt(Math.pow(moveX, 2) + (Math.pow(moveY, 2)));
+                        diagonalDistance = Math.sqrt(Math.pow(moveX, 2) + (Math.pow(moveY, 2)));
                         cellDiagonal = cellWidth * Math.sqrt(2);
 
-                        if (distance > cellDiagonal){
+                        if (diagonalDistance > cellDiagonal){
                             Log.d(TAG, "DIAGONAL ANDADA ");
+                            int diagonalMoveOffset = 0;
+
                             direction = MoveDirection.DIAGONAL;
-                            //descobrir para qual das 4 direcoes
-                            //currentPosition = initialSwipePosition + Math.round((float) (distance / cellDiagonal));
+
                             if (moveX > 0 && moveY > 0){
-                                //direita e baixo
-                                //regra de acordo com o grid
-                                currentPosition = initialSwipePosition + 11 * Math.round((float) (distance / cellDiagonal));
-                                paintCell(R.drawable.word_being_selected_background, currentPosition, false);
-                                direction = MoveDirection.DIAGONAL;
+                                diagonalMoveOffset = 11;
                             }
 
                             if (moveX > 0 && moveY < 0){
-                                //direita e baixo
-                                //regra de acordo com o grid
-                                currentPosition = initialSwipePosition + (-9) * Math.round((float) (distance / cellDiagonal));
-                                paintCell(R.drawable.word_being_selected_background, currentPosition, false);
-                                direction = MoveDirection.DIAGONAL;
+                               diagonalMoveOffset = -9;
                             }
 
                             if (moveX < 0 && moveY > 0){
-                                currentPosition = initialSwipePosition + 9 * Math.round((float) (distance / cellDiagonal));
-                                paintCell(R.drawable.word_being_selected_background, currentPosition, false);
-                                direction = MoveDirection.DIAGONAL;
+                                diagonalMoveOffset = 9;
                             }
 
                             if (moveX < 0 && moveY < 0){
-                                currentPosition = initialSwipePosition + (-11) * Math.round((float) (distance / cellDiagonal));
-                                paintCell(R.drawable.word_being_selected_background, currentPosition, false);
-                                direction = MoveDirection.DIAGONAL;
+                                diagonalMoveOffset = -11;
                             }
+
+                            currentPosition = initialSwipePosition + diagonalMoveOffset * Math.round((float) (diagonalDistance / cellDiagonal));
+                            paintCell(R.drawable.word_being_selected_background, currentPosition, false);
                         }
                     }
                 }
@@ -301,7 +276,6 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                         paintCell(R.drawable.word_being_selected_background, currentPosition, false);
                         //lettersGripPanel.getChildAt(currentPosition).setBackgroundColor(getResources().getColor(R.color.wordBeingSelectedBg));
                         direction = MoveDirection.HORIZONTAL;
-
                     }
                 }
 
@@ -328,48 +302,41 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                         direction = MoveDirection.VERTICAL;
                     }
                 }
-
-
             break;
 
             case MotionEvent.ACTION_UP:
                 boolean isFound = false;
+                int startPosition;
+                int endPosition;
+                int color;
 
                 Log.d(TAG, "initial" + initialSwipePosition);
                 Log.d(TAG, "final" + finalSwipePosition);
                 Log.d(TAG, "finalSwipePosition: " + finalSwipePosition);
 
-          //      finalSwipePosition = initialSwipePosition + Math.round(moveX / cellWidth);
-
                 List<Word> usedWordsList =  wpd.getUsedWordsList();
 
-                int startPosition;
-                int endPosition;
-                int color;
-
                 if (direction == MoveDirection.DIAGONAL) {
-                    int cellCounter;
+                    int diagonalMoveOffset = 0;
 
                     //1
                     if (moveX > 0 && moveY < 0){
-                        cellCounter = -9;
-                        finalSwipePosition = initialSwipePosition + cellCounter * Math.round((float) (distance / cellDiagonal));
+                        diagonalMoveOffset = -9;
                     }
                     //2
                     if (moveX < 0 && moveY > 0){
-                        cellCounter = 9;
-                        finalSwipePosition = initialSwipePosition + cellCounter * Math.round((float) (distance / cellDiagonal));
+                        diagonalMoveOffset = 9;
                     }
                     //3
                     if (moveX > 0 && moveY > 0){
-                       cellCounter = 11;
-                        finalSwipePosition = initialSwipePosition + cellCounter * Math.round((float) (distance / cellDiagonal));
+                       diagonalMoveOffset = 11;
                     }
                     //4
                     if (moveX < 0 && moveY < 0){
-                        cellCounter = -11;
-                        finalSwipePosition = initialSwipePosition + cellCounter * Math.round((float) (distance / cellDiagonal));
+                        diagonalMoveOffset = -11;
                     }
+
+                    finalSwipePosition = initialSwipePosition + diagonalMoveOffset * Math.round((float) (diagonalDistance / cellDiagonal));
 
                     startPosition = (moveX < 0 && moveY > 0) || (moveX > 0 && moveY > 0) ? initialSwipePosition : finalSwipePosition;
                     endPosition = (moveX < 0 && moveY > 0) || (moveX > 0 && moveY > 0) ? finalSwipePosition : initialSwipePosition;
@@ -476,15 +443,9 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                     return true;
                 }
 
-                initialSwipePosition = -1;
-                finalSwipePosition = -1;
-                initialX = -1;
-                initialY = -1;
-                moveX = -1;
-                moveY = -1;
+                resetSwipeRelatedVariables();
 
                 toolbarCounter.setText(wordsCounter + "/" + usedWordsList.size());
-                direction = MoveDirection.NONE;
 
                 if (wordsCounter == wpd.getUsedWordsList().size()){
                     buildAndDisplayAlertDialog();
@@ -498,6 +459,17 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
             break;
         }
         return true;
+    }
+
+    private void resetSwipeRelatedVariables() {
+        initialSwipePosition = -1;
+        finalSwipePosition = -1;
+        initialX = -1;
+        initialY = -1;
+        moveX = -1;
+        moveY = -1;
+
+        direction = MoveDirection.NONE;
     }
 
     private void paintCell(int color, int gridPosition, boolean isFound) {
