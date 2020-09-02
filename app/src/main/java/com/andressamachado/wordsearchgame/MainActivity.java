@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingDeque;
 
@@ -38,18 +39,19 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
     private TextView toolbarCounter;
     private DrawerLayout drawer;
     private Chronometer toolbarChronometer;
-    private boolean running;
     private NavigationView navigationView;
 
+    private boolean running;
     private WordPlacement wpd;
     private int wordsCounter;
     private int initialSwipePosition;
     private int finalSwipePosition;
     private float cellWidth;
     private float cellHeight;
-    double cellDiagonal;
-    double distance;
+    private double cellDiagonal;
+    private double distance;
 
+    private ArrayList<Integer> usedIndexes;
     private enum MoveDirection {
         NONE,
         HORIZONTAL,
@@ -107,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
         wpd.getUsedWordsList();
         wordsCounter = 0;
 
+        usedIndexes = new ArrayList<>();
         direction = MoveDirection.NONE;
         initialSwipePosition = -1;
         finalSwipePosition = -1;
@@ -207,11 +210,12 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                 }
 
                 initialSwipePosition = (int) v.getTag();
+                finalSwipePosition = (int) v.getTag();
 
                 initialX = event.getX();
                 initialY = event.getY();
 
-                lettersGripPanel.getChildAt(initialSwipePosition).setBackground(getResources().getDrawable(R.drawable.word_being_selected_background));
+                paintCell(R.drawable.word_being_selected_background, initialSwipePosition, false);
 
                 Log.e(TAG, ((TextView) v).getText().toString() + " ");
                 Log.e("x: ", (initialX + " "));
@@ -249,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                                 //direita e baixo
                                 //regra de acordo com o grid
                                 currentPosition = initialSwipePosition + 11 * Math.round((float) (distance / cellDiagonal));
-                                lettersGripPanel.getChildAt(currentPosition).setBackground(getResources().getDrawable(R.drawable.word_being_selected_background));
+                                paintCell(R.drawable.word_being_selected_background, currentPosition, false);
                                 direction = MoveDirection.DIAGONAL;
                             }
 
@@ -257,19 +261,19 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                                 //direita e baixo
                                 //regra de acordo com o grid
                                 currentPosition = initialSwipePosition + (-9) * Math.round((float) (distance / cellDiagonal));
-                                lettersGripPanel.getChildAt(currentPosition).setBackground(getResources().getDrawable(R.drawable.word_being_selected_background));
+                                paintCell(R.drawable.word_being_selected_background, currentPosition, false);
                                 direction = MoveDirection.DIAGONAL;
                             }
 
                             if (moveX < 0 && moveY > 0){
                                 currentPosition = initialSwipePosition + 9 * Math.round((float) (distance / cellDiagonal));
-                                lettersGripPanel.getChildAt(currentPosition).setBackground(getResources().getDrawable(R.drawable.word_being_selected_background));
+                                paintCell(R.drawable.word_being_selected_background, currentPosition, false);
                                 direction = MoveDirection.DIAGONAL;
                             }
 
                             if (moveX < 0 && moveY < 0){
                                 currentPosition = initialSwipePosition + (-11) * Math.round((float) (distance / cellDiagonal));
-                                lettersGripPanel.getChildAt(currentPosition).setBackground(getResources().getDrawable(R.drawable.word_being_selected_background));
+                                paintCell(R.drawable.word_being_selected_background, currentPosition, false);
                                 direction = MoveDirection.DIAGONAL;
                             }
                         }
@@ -282,7 +286,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
 
                         //finding current cell position
                         currentPosition = initialSwipePosition + Math.round(moveX / cellWidth);
-                        lettersGripPanel.getChildAt(currentPosition).setBackground(getResources().getDrawable(R.drawable.word_being_selected_background));
+                        paintCell(R.drawable.word_being_selected_background, currentPosition, false);
                         //lettersGripPanel.getChildAt(currentPosition).setBackgroundColor(getResources().getColor(R.color.wordBeingSelectedBg));
 
                         //horizontal move to the right
@@ -294,7 +298,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
 
                         //finding current cell position
                         currentPosition = initialSwipePosition +  Math.round(moveX / cellWidth);
-                        lettersGripPanel.getChildAt(currentPosition).setBackground(getResources().getDrawable(R.drawable.word_being_selected_background));
+                        paintCell(R.drawable.word_being_selected_background, currentPosition, false);
                         //lettersGripPanel.getChildAt(currentPosition).setBackgroundColor(getResources().getColor(R.color.wordBeingSelectedBg));
                         direction = MoveDirection.HORIZONTAL;
 
@@ -306,7 +310,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                     if (moveY > 0 && moveY > cellHeight) {
                         //finding current cell position
                         currentPosition = initialSwipePosition + Math.round(moveY / cellHeight) * 10;
-                        lettersGripPanel.getChildAt(currentPosition).setBackground(getResources().getDrawable(R.drawable.word_being_selected_background));
+                        paintCell(R.drawable.word_being_selected_background, currentPosition, false);
                         //lettersGripPanel.getChildAt(currentPosition).setBackgroundColor(getResources().getColor(R.color.wordBeingSelectedBg));
 
                         Log.d(TAG, "moveY: "+moveY);
@@ -316,7 +320,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                     } else if (moveY < 0 && (-1) * moveY > cellHeight){
                         //finding current cell position
                         currentPosition = initialSwipePosition + Math.round(moveY / cellHeight) * 10;
-                        lettersGripPanel.getChildAt(currentPosition).setBackground(getResources().getDrawable(R.drawable.word_being_selected_background));
+                        paintCell(R.drawable.word_being_selected_background, currentPosition, false);
                         //lettersGripPanel.getChildAt(currentPosition).setBackgroundColor(getResources().getColor(R.color.wordBeingSelectedBg));
 
                         Log.d(TAG, "moveY: "+moveY);
@@ -331,21 +335,11 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
             case MotionEvent.ACTION_UP:
                 boolean isFound = false;
 
-                if (wordsCounter == wpd.getUsedWordsList().size()-1){
-                    buildAndDisplayAlertDialog();
-                    toolbarChronometer.stop();
-                }
-
                 Log.d(TAG, "initial" + initialSwipePosition);
                 Log.d(TAG, "final" + finalSwipePosition);
                 Log.d(TAG, "finalSwipePosition: " + finalSwipePosition);
 
-//                finalSwipePosition = initialSwipePosition + Math.round(moveX / cellWidth);
-//
-//                if (initialSwipePosition == finalSwipePosition){
-//                    lettersGripPanel.getChildAt(initialSwipePosition).setBackgroundColor(Color.WHITE);
-//                    return true;
-//                }
+          //      finalSwipePosition = initialSwipePosition + Math.round(moveX / cellWidth);
 
                 List<Word> usedWordsList =  wpd.getUsedWordsList();
 
@@ -393,25 +387,25 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
                     //1
                     if (moveX > 0 && moveY < 0) {
                         for (int i = initialSwipePosition; i >= finalSwipePosition; i-=9){
-                            lettersGripPanel.getChildAt(i).setBackground(getResources().getDrawable(color));
+                            paintCell(color, i, isFound);
                         }
                     }
                     //2
                     if (moveX < 0 && moveY > 0) {
                         for (int i = initialSwipePosition; i <= finalSwipePosition; i+=9){
-                            lettersGripPanel.getChildAt(i).setBackground(getResources().getDrawable(color));
+                            paintCell(color, i, isFound);
                         }
                     }
                     //3
                     if (moveX > 0 && moveY > 0) {
                         for (int i = initialSwipePosition; i <= finalSwipePosition; i+=11){
-                            lettersGripPanel.getChildAt(i).setBackground(getResources().getDrawable(color));
+                            paintCell(color, i,isFound);
                         }
                     }
                     //4
                     if (moveX < 0 && moveY < 0) {
                         for (int i = initialSwipePosition; i >= finalSwipePosition; i-=11){
-                            lettersGripPanel.getChildAt(i).setBackground(getResources().getDrawable(color));
+                            paintCell(color, i, isFound);
                         }
                     }
                 }
@@ -436,12 +430,12 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
 
                     if (moveX > 0) {
                         for (int i = initialSwipePosition; i <= finalSwipePosition; i++){
-                            lettersGripPanel.getChildAt(i).setBackground(getResources().getDrawable(color));
+                            paintCell(color, i, isFound);
                         }
                     }
                     if (moveX < 0) {
                         for (int i = finalSwipePosition; i <= initialSwipePosition; i++){
-                            lettersGripPanel.getChildAt(i).setBackground(getResources().getDrawable(color));
+                            paintCell(color, i, isFound);
                         }
                     }
                 }
@@ -466,15 +460,20 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
 
                     if (moveY > 0) {
                         for (int i = initialSwipePosition; i <= finalSwipePosition; i+=10){
-                            lettersGripPanel.getChildAt(i).setBackground(getResources().getDrawable(color));
+                            paintCell(color, i, isFound);
                         }
                     }
 
                     if (moveY < 0){
                         for (int i = finalSwipePosition; i <= initialSwipePosition; i+=10){
-                            lettersGripPanel.getChildAt(i).setBackground(getResources().getDrawable(color));
+                            paintCell(color, i, isFound);
                         }
                     }
+                }
+
+                if (initialSwipePosition == finalSwipePosition){
+                    paintCell(R.drawable.word_not_found_background, initialSwipePosition, false);
+                    return true;
                 }
 
                 initialSwipePosition = -1;
@@ -486,13 +485,30 @@ public class MainActivity extends AppCompatActivity implements  View.OnTouchList
 
                 toolbarCounter.setText(wordsCounter + "/" + usedWordsList.size());
                 direction = MoveDirection.NONE;
-            break;
+
+                if (wordsCounter == wpd.getUsedWordsList().size()){
+                    buildAndDisplayAlertDialog();
+                    toolbarChronometer.stop();
+                    return true;
+                }
+                break;
 
             case MotionEvent.ACTION_CANCEL:
                 Log.d(TAG, "on cancel" );
             break;
         }
         return true;
+    }
+
+    private void paintCell(int color, int gridPosition, boolean isFound) {
+        if (usedIndexes.contains(gridPosition)){
+            return;
+        }
+        lettersGripPanel.getChildAt(gridPosition).setBackground(getResources().getDrawable(color));
+
+        if(isFound) {
+            usedIndexes.add(gridPosition);
+        }
     }
 
     private void buildAndDisplayAlertDialog() {

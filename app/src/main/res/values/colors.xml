@@ -5,9 +5,9 @@
     <color name="colorAccent">#9a6279</color>
 
     <color name="wordDisplayed">#0080a3</color>
-    <color name="wordHorizontallyFoundBg">#809a6279</color>
-    <color name="wordVerticallyFoundBg">#80253A4B</color>
-    <color name="wordDiagonallyFoundBg">#80e5a024</color>
+    <color name="wordHorizontallyFoundBg">#cf4327</color>
+    <color name="wordVerticallyFoundBg">#0699c0</color>
+    <color name="wordDiagonallyFoundBg">#e5a024</color>
     <color name="wordBeingSelectedBg">#B39c9497</color>
     <color name="chronometerTextColor">#e0e0e0</color>
     <color name="dialogBackgroundColor">#c4c0c2</color>
