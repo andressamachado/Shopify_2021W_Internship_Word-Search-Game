@@ -31,8 +31,7 @@ The **_Dmitry Nikulnikov`s_** Arabica collection can be found [here](https://ico
 
 ## Screenshots - app running in a portrait mode 
 
-![](screenshots/Portrait_SplashScreen.png) ![](screenshots/Portrait_NoWordFound.PNG) ![](screenshots/Portrait_WordsFound.png)  
-![](screenshots/Portrait_EndGame.png) 
+![](screenshots/Portrait_SplashScreen.png) ![](screenshots/Portrait_NoWordFound.PNG) ![](screenshots/Portrait_WordsFound.png) ![](screenshots/Portrait_EndGame.png) 
 
 ## Screenshots - app running in a landscape mode
 
