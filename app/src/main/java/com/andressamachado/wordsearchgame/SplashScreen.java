@@ -12,9 +12,18 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+/*********************************************************************************************
+ * This class is responsible for creating a SplashScreen for the application.
+ *
+ * @author Andressa Machado
+ * @version 1.0
+ * @since 2020/09/02
+ ********************************************************************************************/
 public class SplashScreen extends AppCompatActivity {
+    /**Duration that the splash screen will be visible*/
     private static final int SPLASH_SCREEN = 4000;
 
+    /**Simple movements to the splash screen*/
     Animation topAnimation, bottomAnimation;
     TextView title, subtitle;
     ImageView image;
@@ -40,7 +49,7 @@ public class SplashScreen extends AppCompatActivity {
         title.setAnimation(topAnimation);
         subtitle.setAnimation(topAnimation);
 
-        //4seconds past, run next application
+        //4 seconds past, run application
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
