@@ -2,7 +2,7 @@
 by **Andressa Machado**
 
 ## Description
-`Word Search Game is a randomized 10 x 10 grid where the words are placed for the user to find by swiping over them.`
+`Word Search Game is a randomized 10 x 10 grid where the words are placed for the user to find by swiping over them.` implemented for Shopify internship application.
 
 The application shows the words to be found by the user in the grid at the bottom of the screen, keeps track of the number of words found,
 keeps track of the time passed and allows the user to start a new game when every word is found.
@@ -25,7 +25,7 @@ You can always clone the project, and using Android Studio, run the application 
 
 ## Illustrations
 Every Illustration used in this project are from the Artist **_Dmitry Nikulnikov_** .
-Those illustrations are the free low-quality trial and this application is only for practice and academic purpose. The applications won`t be published.
+Those illustrations are the free low-quality trial and this application is only for practice and academic purpose. The application won`t be published.
 
 The **_Dmitry Nikulnikov`s_** Arabica collection can be found [here](https://icons8.com/illustrations/style--arabica).
 
