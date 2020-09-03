@@ -23,6 +23,14 @@ An APK was generated and added to this repository, you can find it following thi
 
 You can always clone the project, and using Android Studio, run the application using an Android Virtual Device (AVD) with API 23.
 
+## Limitations
+- An algorithm was implemented to make sure the words are placed randomly every time a new game starts, for that reason, sometimes is not possible to place every 6 words in the grid as another algorithm was implemented to make sure words are placed properly without overlaping. 
+
+- Game is not adapted for every screen size on the market. Application was developed using a Pixel AVD and my personal smartphone Nexus 6.
+
+- Diagonal swipe is working, although needs to be adjusted
+
+
 ## Illustrations
 Every Illustration used in this project are from the Artist **_Dmitry Nikulnikov_** .
 Those illustrations are the free low-quality trial and this application is only for practice and academic purpose. The application won`t be published.
