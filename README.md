@@ -19,9 +19,7 @@ keeps track of the time passed and allows the user to start a new game when ever
 Application was developed using `Android SDK 6.0 API 23 Marshmallow`.
 
 ## Running the Application
-An **Android Application Pack (APK)** was generated and added to this repository, you can find it following this path [Word-Search-Game/app/release/app-release.apk](https://github.com/andressamachado/Word-Search-Game/blob/master/app/release/app-release.apk)
-
-Download the APK and open it on your phone, it will install the application on your device.
+An **Android Application Pack (APK)** was generated and added to this repository, you can find it following this path [Word-Search-Game/app/release/app-release.apk](https://github.com/andressamachado/Word-Search-Game/blob/master/app/release/app-release.apk). Download the APK and open it on your phone, it will install the application on your device.
 
 You can always **HTTPS clone** the project using:
 
