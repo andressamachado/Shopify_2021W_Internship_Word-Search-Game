@@ -25,7 +25,9 @@ Download the APK and open it on your phone, it will install the application on y
 
 You can always HTTPS clone the project using:
 
- `git clone https://github.com/andressamachado/Shopify_2021W_Internship_Word-Search-Game.git` on your terminal and, using Android Studio, run the application using an Android Virtual Device (AVD) with API 23.
+ `git clone https://github.com/andressamachado/Shopify_2021W_Internship_Word-Search-Game.git` 
+ 
+ on your terminal and, using Android Studio, run the application using an Android Virtual Device (AVD) with API 23.
 
 Please, be aware that this application was developed under API 23 and some functions could not run properly in some devices with lower API. 
 
