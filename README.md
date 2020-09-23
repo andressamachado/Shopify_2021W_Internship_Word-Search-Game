@@ -21,9 +21,9 @@ Application was developed using `Android SDK 6.0 API 23 Marshmallow`.
 ## Running the Application
 An **Android Application Pack (APK)** was generated and added to this repository, you can find it following this path: [Word-Search-Game/app/release/app-release.apk](https://github.com/andressamachado/Word-Search-Game/blob/master/app/release/app-release.apk). Download the APK and open it on your phone, it will install the application on your device.
 
-You can always **HTTPS clone** the project using:
+You can always **HTTPS clone** this project:
 
-`git clone https://github.com/andressamachado/Shopify_2021W_Internship_Word-Search-Game.git` on your terminal and, using Android Studio, run the application using an Android Virtual Device (AVD) with API 23.
+type `git clone https://github.com/andressamachado/Shopify_2021W_Internship_Word-Search-Game.git` on your terminal and, using Android Studio, run the application using an Android Virtual Device (AVD) with API 23.
 
 [ *Please, be aware that this application was developed under API 23 and some functions could not run properly in some devices with lower API.* ]
 
