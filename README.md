@@ -2,7 +2,7 @@
 by **Andressa Machado**
 
 ## Description
-`Word Search Game is a randomized 10 x 10 grid where the words are placed for the user to find by swiping over them.` implemented for Shopify internship application.
+`Word Search Game is a randomized 10 x 10 grid where the words are placed for the user to find by swiping over them.`
 
 The application shows the words to be found by the user in the grid at the bottom of the screen, keeps track of the number of words found,
 keeps track of the time passed and allows the user to start a new game when every word is found.
